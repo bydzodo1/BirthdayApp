@@ -10,10 +10,20 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity {
+import java.util.List;
 
+import bydzovsky.dominik.birthdayapp.model.MyArrayAdapter;
+import bydzovsky.dominik.birthdayapp.model.Person;
+import bydzovsky.dominik.birthdayapp.utility.Service;
+
+public class MainActivity extends AppCompatActivity {
+    Service s = new Service();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,8 +40,23 @@ public class MainActivity extends AppCompatActivity {
 //
 //            }
 //        });
-
+        setContentOfListView();
     }
+
+    public void setContentOfListView(){
+        ImageView imageView = (ImageView) findViewById(R.id.smile);
+        TextView nameTextView = (TextView) findViewById(R.id.name);
+        TextView dateTextView = (TextView) findViewById(R.id.birthday);
+        //TextView yearOldTextView = (TextView) findViewById(R.id.yearOld);
+
+        List<Person> listOfPeople = s.getListOfPeople();
+
+        // use your custom layout
+        ArrayAdapter<RelativeLayout> adapter = new MyArrayAdapter(this,
+                R.layout.content_main, R.id.to_repeat, listOfPeople);
+        //setListAdapter(adapter);
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

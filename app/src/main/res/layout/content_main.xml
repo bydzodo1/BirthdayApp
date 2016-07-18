@@ -58,9 +58,12 @@
                 android:padding="6dp"
                 android:text="15th June" />
 
-
+<ListView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
             <RelativeLayout
                 style="@style/AppTheme.Person"
+                android:id="@+id/to_repeat"
                 android:layout_width="match_parent"
                 android:layout_height="@android:dimen/notification_large_icon_height">
 
@@ -78,9 +81,16 @@
                     android:layout_height="wrap_content"
                     android:layout_toRightOf="@id/smile"
                     android:paddingLeft="2dp"
-                    android:text="Dominik Bydžovský"
+                    android:text="Jméno"
                     android:textSize="18dp" />
-
+                <TextView
+                    android:id="@+id/surname"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/name"
+                    android:paddingLeft="2dp"
+                    android:text="Příjmení"
+                    android:textSize="18dp" />
                 <TextView
                     android:id="@+id/celebrates"
                     android:layout_width="wrap_content"
@@ -88,205 +98,37 @@
                     android:layout_below="@id/name"
                     android:layout_toRightOf="@id/smile"
                     android:paddingLeft="2dp"
-                    android:text="is celebrating birthday on 29th November"
+                    android:text="is celebrating birthday on "
                     android:textSize="14dp" />
-
                 <TextView
-                    android:id="@+id/detail"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/celebrates"
-                    android:layout_toRightOf="@id/smile"
-                    android:paddingLeft="2dp"
-                    android:text="22 years old"
-                    android:textSize="14dp" />
-            </RelativeLayout>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:padding="6dp"
-                android:text="July" />
-
-            <RelativeLayout
-                style="@style/AppTheme.Person"
-                android:layout_width="match_parent"
-                android:layout_height="@android:dimen/notification_large_icon_height">
-
-                <ImageView
-                    android:id="@+id/smile"
-                    android:layout_width="@android:dimen/notification_large_icon_width"
-                    android:layout_height="@android:dimen/notification_large_icon_height"
-                    android:src="@drawable/smile"
-
-                    />
-
-                <TextView
-                    android:id="@+id/name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_toRightOf="@id/smile"
-                    android:paddingLeft="2dp"
-                    android:text="Dominik Bydžovský"
-                    android:textSize="18dp" />
-
-                <TextView
-                    android:id="@+id/celebrates"
+                    android:id="@+id/birthday"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/name"
-                    android:layout_toRightOf="@id/smile"
+                    android:layout_toRightOf="@id/celebrates"
                     android:paddingLeft="2dp"
-                    android:text="is celebrating birthday on 29th November"
+                    android:text="__th month"
                     android:textSize="14dp" />
-
                 <TextView
-                    android:id="@+id/detail"
+                    android:id="@+id/yearOld"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/celebrates"
                     android:layout_toRightOf="@id/smile"
                     android:paddingLeft="2dp"
-                    android:text="22 years old"
+                    android:text="yearOld"
                     android:textSize="14dp" />
-            </RelativeLayout>
-
-            <RelativeLayout
-                style="@style/AppTheme.Person"
-                android:layout_width="match_parent"
-                android:layout_height="@android:dimen/notification_large_icon_height">
-
-                <ImageView
-                    android:id="@+id/smile"
-                    android:layout_width="@android:dimen/notification_large_icon_width"
-                    android:layout_height="@android:dimen/notification_large_icon_height"
-                    android:src="@drawable/smile"
-
-                    />
-
-                <TextView
-                    android:id="@+id/name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_toRightOf="@id/smile"
-                    android:paddingLeft="2dp"
-                    android:text="Dominik Bydžovský"
-                    android:textSize="18dp" />
-
-                <TextView
-                    android:id="@+id/celebrates"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/name"
-                    android:layout_toRightOf="@id/smile"
-                    android:paddingLeft="2dp"
-                    android:text="is celebrating birthday on 29th November"
-                    android:textSize="14dp" />
-
                 <TextView
                     android:id="@+id/detail"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/celebrates"
-                    android:layout_toRightOf="@id/smile"
+                    android:layout_toRightOf="@id/yearOld"
                     android:paddingLeft="2dp"
-                    android:text="22 years old"
+                    android:text=" years old"
                     android:textSize="14dp" />
             </RelativeLayout>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:padding="6dp"
-                android:text="June" />
-
-            <RelativeLayout
-                style="@style/AppTheme.Person"
-                android:layout_width="match_parent"
-                android:layout_height="@android:dimen/notification_large_icon_height">
-
-                <ImageView
-                    android:id="@+id/smile"
-                    android:layout_width="@android:dimen/notification_large_icon_width"
-                    android:layout_height="@android:dimen/notification_large_icon_height"
-                    android:src="@drawable/smile"
-
-                    />
-
-                <TextView
-                    android:id="@+id/name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_toRightOf="@id/smile"
-                    android:paddingLeft="2dp"
-                    android:text="Dominik Bydžovský"
-                    android:textSize="18dp" />
-
-                <TextView
-                    android:id="@+id/celebrates"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/name"
-                    android:layout_toRightOf="@id/smile"
-                    android:paddingLeft="2dp"
-                    android:text="is celebrating birthday on 29th November"
-                    android:textSize="14dp" />
-
-                <TextView
-                    android:id="@+id/detail"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/celebrates"
-                    android:layout_toRightOf="@id/smile"
-                    android:paddingLeft="2dp"
-                    android:text="22 years old"
-                    android:textSize="14dp" />
-            </RelativeLayout>
-
-            <RelativeLayout
-                style="@style/AppTheme.Person"
-                android:layout_width="match_parent"
-                android:layout_height="@android:dimen/notification_large_icon_height">
-
-                <ImageView
-                    android:id="@+id/smile"
-                    android:layout_width="@android:dimen/notification_large_icon_width"
-                    android:layout_height="@android:dimen/notification_large_icon_height"
-                    android:src="@drawable/smile"
-
-                    />
-
-                <TextView
-                    android:id="@+id/name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_toRightOf="@id/smile"
-                    android:paddingLeft="2dp"
-                    android:text="Dominik Bydžovský"
-                    android:textSize="18dp" />
-
-                <TextView
-                    android:id="@+id/celebrates"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/name"
-                    android:layout_toRightOf="@id/smile"
-                    android:paddingLeft="2dp"
-                    android:text="is celebrating birthday on 29th November"
-                    android:textSize="14dp" />
-
-                <TextView
-                    android:id="@+id/detail"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/celebrates"
-                    android:layout_toRightOf="@id/smile"
-                    android:paddingLeft="2dp"
-                    android:text="22 years old"
-                    android:textSize="14dp" />
-            </RelativeLayout>
+</ListView>
         </LinearLayout>
 
 
