@@ -34,13 +34,14 @@ public class MyArrayAdapter extends ArrayAdapter<Person> {
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View rowView = inflater.inflate(R.layout.listview_people_main, parent, false);
         Person person = (Person) getItem(position);
+        final int person_id = person.getId();
 
         RelativeLayout relativeLayout = (RelativeLayout) rowView.findViewById(R.id.to_repeat);
         relativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mainActivity, PersonDetailActivity.class);
-                intent.putExtra(EXTRA_MESSAGE , person.getId());
+                intent.putExtra("EXTRA_MESSAGE", person_id);
                 mainActivity.startActivity(intent);
             }
         });

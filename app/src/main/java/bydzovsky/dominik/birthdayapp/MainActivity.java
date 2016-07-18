@@ -30,15 +30,15 @@ public class MainActivity extends AppCompatActivity {
     Service s = new Service();
     ListView lstView;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+
         setSupportActionBar(toolbar);
 
-        lstView = (ListView)findViewById(R.id.lstview);
+        lstView = (ListView) findViewById(R.id.lstview);
 //        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 //        fab.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
         setContentOfListView();
     }
 
-    public void setContentOfListView(){
+    public void setContentOfListView() {
         ArrayList<Person> listOfPeople = s.getListOfPeople();
         ArrayAdapter<Person> adapter = new MyArrayAdapter(getApplicationContext(),
                 listOfPeople, this);
@@ -82,19 +82,41 @@ public class MainActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            MenuItem itemSettings = (MenuItem) findViewById(R.id.action_settings);
+            itemSettings.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem item) {
+                    Intent intent = new Intent(getParent(), SettingsActivity.class);
+                    getParent().startActivity(intent);
+                    return true;
+                }
+            });
+            return true;
+        }
+        if (id == R.id.action_about) {
+            MenuItem itemAbout = (MenuItem) findViewById(R.id.action_about);
+            itemAbout.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem item) {
+                    Intent intent = new Intent(getParent(), AboutActivity.class);
+                    getParent().startActivity(intent);
+                    return true;
+                }
+            });
             return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-    public void intentAddPersonActivity(View view){
+    public void intentAddPersonActivity(View view) {
         Intent intent = new Intent(this, AddPersonActivity.class);
         startActivity(intent);
     }
 
-    public void search(View view){
+    public void search(View view) {
         //id: search_edit_text
     }
+
 
 }
