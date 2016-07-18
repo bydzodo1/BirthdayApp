@@ -16,6 +16,10 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import org.w3c.dom.Text;
+
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import bydzovsky.dominik.birthdayapp.model.MyArrayAdapter;
@@ -24,6 +28,9 @@ import bydzovsky.dominik.birthdayapp.utility.Service;
 
 public class MainActivity extends AppCompatActivity {
     Service s = new Service();
+    ListView lstView;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        lstView = (ListView)findViewById(R.id.lstview);
 //        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 //        fab.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -40,21 +48,21 @@ public class MainActivity extends AppCompatActivity {
 //
 //            }
 //        });
+
+
+        TextView celebrates = (TextView) findViewById(R.id.today_celebrates);
+        Date date = new Date();
+        String name = "_____";
+        celebrates.setText("Today's " + date.toString() + " and celebrates " + name);
         setContentOfListView();
     }
 
     public void setContentOfListView(){
-        ImageView imageView = (ImageView) findViewById(R.id.smile);
-        TextView nameTextView = (TextView) findViewById(R.id.name);
-        TextView dateTextView = (TextView) findViewById(R.id.birthday);
-        //TextView yearOldTextView = (TextView) findViewById(R.id.yearOld);
+        ArrayList<Person> listOfPeople = s.getListOfPeople();
+        ArrayAdapter<Person> adapter = new MyArrayAdapter(getApplicationContext(),
+                listOfPeople, this);
+        lstView.setAdapter(adapter);
 
-        List<Person> listOfPeople = s.getListOfPeople();
-
-        // use your custom layout
-        ArrayAdapter<RelativeLayout> adapter = new MyArrayAdapter(this,
-                R.layout.content_main, R.id.to_repeat, listOfPeople);
-        //setListAdapter(adapter);
     }
 
 
@@ -79,13 +87,7 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
-    public void showPersonDetail(View view){
-        Intent intent = new Intent(this, PersonDetailActivity.class);
-//        EditText editText = (EditText) findViewById(R.id.edit_message);
-//        String message = editText.getText().toString();
-//        intent.putExtra(EXTRA_MESSAGE, message);
-        startActivity(intent);
-    }
+
     public void intentAddPersonActivity(View view){
         Intent intent = new Intent(this, AddPersonActivity.class);
         startActivity(intent);

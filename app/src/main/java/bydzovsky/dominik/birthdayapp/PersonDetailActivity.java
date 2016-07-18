@@ -8,6 +8,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 public class PersonDetailActivity extends AppCompatActivity {
+    public final static String EXTRA_MESSAGE  = "bydzovsky.dominik.birthdayapp.message";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,5 +29,9 @@ public class PersonDetailActivity extends AppCompatActivity {
 
     public void sendEmailToHonoree(View view){
         //ToDo
+    }
+
+    public static String getExtraMessage() {
+        return EXTRA_MESSAGE;
     }
 }

@@ -13,7 +13,7 @@ public class Person {
     String email;
     String nameday;
 
-    public Person(int id, String name, String surname, String email, String nameday, Date birthday){
+    public Person(int id, String name, String surname, String email, String nameday, Date birthday) {
         this.name = name;
         this.surname = surname;
         this.email = email;
