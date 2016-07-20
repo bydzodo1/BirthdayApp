@@ -24,12 +24,12 @@ import java.util.Date;
 import java.util.List;
 
 import bydzovsky.dominik.birthdayapp.model.MyArrayAdapter;
+import bydzovsky.dominik.birthdayapp.model.MySQLiteDatabaseHelper;
 import bydzovsky.dominik.birthdayapp.model.Person;
 import bydzovsky.dominik.birthdayapp.utility.Service;
 // URL address to upload my project bit.ly/2a0TZRM
 public class MainActivity extends AppCompatActivity {
     Service s = new Service(getBaseContext());
-
     ListView lstView;
 
     @Override
@@ -60,20 +60,20 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void setContentOfListView() {
-        ArrayList<Person> listOfPeople = s.getListOfPeople();
+        CheckBox showAllCheckBox = (CheckBox) findViewById(R.id.show_all_checkbox);
+        int showDays;
+        if (showAllCheckBox.isChecked()){
+            showDays = 366;
+        } else {
+            showDays = MySQLiteDatabaseHelper.DEFAULT_SHOW_DAYS;
+        }
+        ArrayList<Person> listOfPeople = s.getListOfPeople(showDays);
         ArrayAdapter<Person> adapter = new MyArrayAdapter(getApplicationContext(),
                 listOfPeople, this);
         lstView.setAdapter(adapter);
 
     }
 
-    public void check_show_all_checkbox(View view){
-        CheckBox showAllCheckBox = (CheckBox) findViewById(R.id.show_all_checkbox);
-        if (showAllCheckBox.isChecked()){
-            setContentOfListView();
-        }
-
-    }
     public void refreshAll(){
 
     }
