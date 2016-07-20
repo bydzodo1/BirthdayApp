@@ -18,7 +18,7 @@ import bydzovsky.dominik.birthdayapp.model.Person;
 import bydzovsky.dominik.birthdayapp.utility.Service;
 
 public class PersonDetailActivity extends AppCompatActivity {
-    Service s = new Service(getBaseContext());
+    Service s = new Service(this);
     Person person;
     int person_id;
 

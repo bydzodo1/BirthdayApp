@@ -12,13 +12,13 @@ import java.util.Date;
 
 
 public class MySQLiteDatabaseHelper extends SQLiteOpenHelper {
-    private final static String DATABASE_NAME = "birthdayApp.db";
+    private final static String DATABASE_NAME = "birthdayapp.db";
     public final static int DEFAULT_SHOW_DAYS = 366;
     private SQLiteDatabase db;
 
     public MySQLiteDatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, 1);
-        //db = SQLiteDatabase.openOrCreateDatabase(DATABASE_NAME, null);
+        db = SQLiteDatabase.openOrCreateDatabase(DATABASE_NAME, null);
     }
 
     @Override
@@ -594,9 +594,6 @@ public class MySQLiteDatabaseHelper extends SQLiteOpenHelper {
         return person;
     }
 
-    public void setDatabase(SQLiteDatabase database) {
-        this.db = database;
-    }
 }
 
 

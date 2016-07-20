@@ -29,7 +29,7 @@ import bydzovsky.dominik.birthdayapp.model.Person;
 import bydzovsky.dominik.birthdayapp.utility.Service;
 // URL address to upload my project bit.ly/2a0TZRM
 public class MainActivity extends AppCompatActivity {
-    Service s = new Service(getBaseContext());
+    Service s = new Service(this);
     ListView lstView;
 
     @Override

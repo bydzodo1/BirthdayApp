@@ -13,12 +13,9 @@ import bydzovsky.dominik.birthdayapp.model.SQLiteDataManager;
 
 public class Service {
     MySQLiteDatabaseHelper myDatabaseHelper;
-    SQLiteDatabase myDatabase;
 
     public Service(Context context) {
         myDatabaseHelper = new MySQLiteDatabaseHelper(context);
-        myDatabase = myDatabaseHelper.getWritableDatabase();
-        myDatabaseHelper.setDatabase(myDatabase);
     }
     public ArrayList<Person> getListOfPeople() {
         return getListOfPeople(366);
