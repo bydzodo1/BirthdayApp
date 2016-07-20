@@ -5,7 +5,7 @@ import android.database.sqlite.SQLiteDatabase;
 /**
  * Created by ee5415 on 18.7.2016.
  */
-public class SQLiteDataManager implements DataManager {
+public class SQLiteDataManager {
     SQLiteDatabase myDatabase;
     public static final String DATABASE_NAME = "BirthdayApp.db";
 

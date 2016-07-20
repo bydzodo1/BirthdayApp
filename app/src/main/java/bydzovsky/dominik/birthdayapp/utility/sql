@@ -1,0 +1,836 @@
+-- phpMyAdmin SQL Dump
+-- version 4.6.1
+-- http://www.phpmyadmin.net
+--
+-- Host: localhost
+-- Generation Time: Jul 20, 2016 at 08:26 AM
+-- Server version: 5.5.49-0ubuntu0.14.04.1
+-- PHP Version: 5.5.9-1ubuntu4.17
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Database: `bydzovsky`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `addresses`
+--
+
+CREATE TABLE `addresses` (
+  `id` int(11) NOT NULL,
+  `street` text NOT NULL,
+  `number` int(10) NOT NULL,
+  `town` text NOT NULL,
+  `psc` int(6) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `addresses`
+--
+
+INSERT INTO `addresses` (`id`, `street`, `number`, `town`, `psc`) VALUES
+(1, 'Dobrá Voda u Hořic', 32, 'Dobrá Voda u Hořic', 50773);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `attachments`
+--
+
+CREATE TABLE `attachments` (
+  `id` int(11) NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `src` varchar(200) NOT NULL,
+  `url` varchar(150) NOT NULL,
+  `ecm_category_id` int(11) NOT NULL,
+  `size_in_kb` int(11) NOT NULL,
+  `file_type` int(10) NOT NULL,
+  `metadata` text NOT NULL,
+  `public_from` timestamp NULL DEFAULT NULL,
+  `public_to` timestamp NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `contacts`
+--
+
+CREATE TABLE `contacts` (
+  `id` int(11) NOT NULL,
+  `name` text NOT NULL,
+  `surname` text NOT NULL,
+  `nameday` int(3) NOT NULL,
+  `birthday` date NOT NULL,
+  `day_of_year_birthday` int(3) NOT NULL,
+  `email` text NOT NULL,
+  `phone` text NOT NULL,
+  `address` int(10) DEFAULT NULL,
+  `other` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `contacts`
+--
+
+INSERT INTO `contacts` (`id`, `name`, `surname`, `nameday`, `birthday`, `day_of_year_birthday`, `email`, `phone`, `address`, `other`) VALUES
+(1, 'Dominik', 'Bydžovský', 217, '1994-11-29', 334, 'dominik01@email.cz', '733600596', 1, ''),
+(4, 'Petr', 'Zelba', 53, '1988-03-20', 80, '', '', NULL, ''),
+(5, 'Antonio', 'Ferrari', 165, '1995-07-11', 193, '', '', NULL, ''),
+(6, 'Martina', 'Zelbová', 199, '1995-07-03', 185, '', '', NULL, ''),
+(7, 'Jana', 'Landová', 145, '1965-07-09', 191, '', '', NULL, ''),
+(8, 'Klára', 'Bydžovská', 225, '1990-07-01', 183, '', '', NULL, ''),
+(9, 'Jiří', 'Zelba', 115, '1962-01-27', 27, '', '', NULL, ''),
+(10, 'Vít', 'Klapil', 167, '1995-03-19', 79, '', '', NULL, ''),
+(12, 'Kateřina', 'Václavíková', 330, '1997-01-06', 6, '', '', NULL, ''),
+(13, 'Jitka', 'Košťálová', 340, '1968-08-26', 239, '', '', NULL, ''),
+(14, 'David', 'Bydžovský', 365, '1992-10-06', 280, '', '', NULL, ''),
+(15, 'Naděžda', 'Zelbová', 261, '1966-11-22', 327, '', '', NULL, ''),
+(16, 'Jiří', 'Němec', 115, '1990-07-11', 193, '', '', NULL, ''),
+(17, 'Josef', 'Bydžovský', 79, '1962-09-24', 268, '', '', NULL, ''),
+(18, 'Arnika', 'Tranová Bydžovská', 90, '1970-11-22', 327, '', '', NULL, ''),
+(19, 'Jana', 'Kopová', 145, '1943-02-19', 50, '', '', NULL, ''),
+(20, 'Jaroslav', 'Kop', 118, '1940-12-03', 338, '', '', NULL, ''),
+(21, 'Jaroslava', 'Bydžovská', 183, '1944-03-18', 78, '', '', NULL, ''),
+(22, 'Marie', 'Palečková', 256, '1941-09-21', 265, '', '', NULL, ''),
+(23, 'Ladislav', 'Paleček', 178, '1938-01-10', 10, '', '', NULL, ''),
+(24, 'Jiří', 'Bydžovský', 115, '1966-04-15', 106, '', '', NULL, '');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `days`
+--
+
+CREATE TABLE `days` (
+  `id` int(3) NOT NULL,
+  `day` int(2) NOT NULL DEFAULT '0',
+  `month` varchar(12) DEFAULT NULL,
+  `n_month` tinyint(2) DEFAULT NULL,
+  `svatek1` varchar(70) DEFAULT NULL,
+  `svatek2` varchar(70) DEFAULT NULL,
+  `svatek3` varchar(70) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `days`
+--
+
+INSERT INTO `days` (`id`, `day`, `month`, `n_month`, `svatek1`, `svatek2`, `svatek3`) VALUES
+(1, 1, 'leden', 1, 'Nový rok', '', ''),
+(2, 2, 'leden', 1, 'Karina', '', ''),
+(3, 3, 'leden', 1, 'Radmila', '', ''),
+(4, 4, 'leden', 1, 'Diana', '', ''),
+(5, 5, 'leden', 1, 'Dalimil', '', ''),
+(6, 6, 'leden', 1, 'Tři králové', '', ''),
+(7, 7, 'leden', 1, 'Vilma', '', ''),
+(8, 8, 'leden', 1, 'Čestmír', '', ''),
+(9, 9, 'leden', 1, 'Vladan', '', ''),
+(10, 10, 'leden', 1, 'Břetislav', '', ''),
+(11, 11, 'leden', 1, 'Bohdana', '', ''),
+(12, 12, 'leden', 1, 'Pravoslav', '', ''),
+(13, 13, 'leden', 1, 'Edita', '', ''),
+(14, 14, 'leden', 1, 'Radovan', '', ''),
+(15, 15, 'leden', 1, 'Alice', '', ''),
+(16, 16, 'leden', 1, 'Ctirad', '', ''),
+(17, 17, 'leden', 1, 'Drahoslav', '', ''),
+(18, 18, 'leden', 1, 'Vladislav', '', ''),
+(19, 19, 'leden', 1, 'Doubravka', '', ''),
+(20, 20, 'leden', 1, 'Ilona', '', ''),
+(21, 21, 'leden', 1, 'Běla', '', ''),
+(22, 22, 'leden', 1, 'Slavomír', '', ''),
+(23, 23, 'leden', 1, 'Zdeněk', '', ''),
+(24, 24, 'leden', 1, 'Milena', '', ''),
+(25, 25, 'leden', 1, 'Miloš', '', ''),
+(26, 26, 'leden', 1, 'Zora', '', ''),
+(27, 27, 'leden', 1, 'Ingrid', '', ''),
+(28, 28, 'leden', 1, 'Otýlie', '', ''),
+(29, 29, 'leden', 1, 'Zdislava', '', ''),
+(30, 30, 'leden', 1, 'Robin', '', ''),
+(31, 31, 'leden', 1, 'Marika', '', ''),
+(32, 1, 'únor', 2, 'Hynek', '', ''),
+(33, 2, 'únor', 2, 'Nela', '', ''),
+(34, 3, 'únor', 2, 'Blažej', '', ''),
+(35, 4, 'únor', 2, 'Jarmila', '', ''),
+(36, 5, 'únor', 2, 'Dobromila', '', ''),
+(37, 6, 'únor', 2, 'Vanda', '', ''),
+(38, 7, 'únor', 2, 'Veronika', '', ''),
+(39, 8, 'únor', 2, 'Milada', '', ''),
+(40, 9, 'únor', 2, 'Apolena', '', ''),
+(41, 10, 'únor', 2, 'Mojmír', '', ''),
+(42, 11, 'únor', 2, 'Božena', '', ''),
+(43, 12, 'únor', 2, 'Slavěna', '', ''),
+(44, 13, 'únor', 2, 'Věnceslav', '', ''),
+(45, 14, 'únor', 2, 'Valentýn', '', ''),
+(46, 15, 'únor', 2, 'Jiřina', '', ''),
+(47, 16, 'únor', 2, 'Ljuba', '', ''),
+(48, 17, 'únor', 2, 'Miloslava', '', ''),
+(49, 18, 'únor', 2, 'Gizela', '', ''),
+(50, 19, 'únor', 2, 'Patrik', '', ''),
+(51, 20, 'únor', 2, 'Oldřich', '', ''),
+(52, 21, 'únor', 2, 'Lenka', '', ''),
+(53, 22, 'únor', 2, 'Petr', '', ''),
+(54, 23, 'únor', 2, 'Svatopluk', '', ''),
+(55, 24, 'únor', 2, 'Matěj', '', ''),
+(56, 25, 'únor', 2, 'Liliana', '', ''),
+(57, 26, 'únor', 2, 'Dorota', '', ''),
+(58, 27, 'únor', 2, 'Alexandr', '', ''),
+(59, 28, 'únor', 2, 'Lumír', '', ''),
+(60, 29, 'únor', 2, 'Horymír', '', ''),
+(61, 1, 'březen', 3, 'Bedřich', '', ''),
+(62, 2, 'březen', 3, 'Anežka', '', ''),
+(63, 3, 'březen', 3, 'Kamil', '', ''),
+(64, 4, 'březen', 3, 'Stela', '', ''),
+(65, 5, 'březen', 3, 'Kazimír', '', ''),
+(66, 6, 'březen', 3, 'Miroslav', '', ''),
+(67, 7, 'březen', 3, 'Tomáš', '', ''),
+(68, 8, 'březen', 3, 'Gabriela', '', ''),
+(69, 9, 'březen', 3, 'Františka', '', ''),
+(70, 10, 'březen', 3, 'Viktorie', '', ''),
+(71, 11, 'březen', 3, 'Anděla', '', ''),
+(72, 12, 'březen', 3, 'Řehoř', '', ''),
+(73, 13, 'březen', 3, 'Růžena', '', ''),
+(74, 14, 'březen', 3, 'Růt', 'Matylda', ''),
+(75, 15, 'březen', 3, 'Ida', '', ''),
+(76, 16, 'březen', 3, 'Elena', 'Herbert', ''),
+(77, 17, 'březen', 3, 'Vlastimil', '', ''),
+(78, 18, 'březen', 3, 'Eduard', '', ''),
+(79, 19, 'březen', 3, 'Josef', '', ''),
+(80, 20, 'březen', 3, 'Světlana', '', ''),
+(81, 21, 'březen', 3, 'Radek', '', ''),
+(82, 22, 'březen', 3, 'Leona', '', ''),
+(83, 23, 'březen', 3, 'Ivona', '', ''),
+(84, 24, 'březen', 3, 'Gabriel', '', ''),
+(85, 25, 'březen', 3, 'Marián', '', ''),
+(86, 26, 'březen', 3, 'Emanuel', '', ''),
+(87, 27, 'březen', 3, 'Dita', '', ''),
+(88, 28, 'březen', 3, 'Soňa', '', ''),
+(89, 29, 'březen', 3, 'Taťána', '', ''),
+(90, 30, 'březen', 3, 'Arnošt', '', ''),
+(91, 31, 'březen', 3, 'Kvido', '', ''),
+(92, 1, 'duben', 4, 'Hugo', '', ''),
+(93, 2, 'duben', 4, 'Erika', '', ''),
+(94, 3, 'duben', 4, 'Richard', '', ''),
+(95, 4, 'duben', 4, 'Ivana', '', ''),
+(96, 5, 'duben', 4, 'Miroslava', '', ''),
+(97, 6, 'duben', 4, 'Vendula', '', ''),
+(98, 7, 'duben', 4, 'Heřman', 'Hermína', ''),
+(99, 8, 'duben', 4, 'Ema', '', ''),
+(100, 9, 'duben', 4, 'Dušan', '', ''),
+(101, 10, 'duben', 4, 'Darja', '', ''),
+(102, 11, 'duben', 4, 'Izabela', '', ''),
+(103, 12, 'duben', 4, 'Julius', '', ''),
+(104, 13, 'duben', 4, 'Aleš', '', ''),
+(105, 14, 'duben', 4, 'Vincenc', '', ''),
+(106, 15, 'duben', 4, 'Anastázie', '', ''),
+(107, 16, 'duben', 4, 'Irena', '', ''),
+(108, 17, 'duben', 4, 'Rudolf', '', ''),
+(109, 18, 'duben', 4, 'Valérie', '', ''),
+(110, 19, 'duben', 4, 'Rostislav', '', ''),
+(111, 20, 'duben', 4, 'Marcela', '', ''),
+(112, 21, 'duben', 4, 'Alexandra', '', ''),
+(113, 22, 'duben', 4, 'Evženie', '', ''),
+(114, 23, 'duben', 4, 'Vojtěch', '', ''),
+(115, 24, 'duben', 4, 'Jiří', '', ''),
+(116, 25, 'duben', 4, 'Marek', '', ''),
+(117, 26, 'duben', 4, 'Oto', '', ''),
+(118, 27, 'duben', 4, 'Jaroslav', '', ''),
+(119, 28, 'duben', 4, 'Vlastislav', '', ''),
+(120, 29, 'duben', 4, 'Robert', '', ''),
+(121, 30, 'duben', 4, 'Blahoslav', '', ''),
+(122, 1, 'květen', 5, 'Svátek práce', '', ''),
+(123, 2, 'květen', 5, 'Zikmund', '', ''),
+(124, 3, 'květen', 5, 'Alexej', '', ''),
+(125, 4, 'květen', 5, 'Květoslav', '', ''),
+(126, 5, 'květen', 5, 'Klaudie', '', ''),
+(127, 6, 'květen', 5, 'Radoslav', '', ''),
+(128, 7, 'květen', 5, 'Stanislav', '', ''),
+(129, 8, 'květen', 5, 'Státní svátek', 'Den osvobození', ''),
+(130, 9, 'květen', 5, 'Ctibor', '', ''),
+(131, 10, 'květen', 5, 'Blažena', '', ''),
+(132, 11, 'květen', 5, 'Svatava', '', ''),
+(133, 12, 'květen', 5, 'Pankrác', '', ''),
+(134, 13, 'květen', 5, 'Servác', '', ''),
+(135, 14, 'květen', 5, 'Bonifác', '', ''),
+(136, 15, 'květen', 5, 'Žofie', '', ''),
+(137, 16, 'květen', 5, 'Přemysl', '', ''),
+(138, 17, 'květen', 5, 'Aneta', '', ''),
+(139, 18, 'květen', 5, 'Nataša', '', ''),
+(140, 19, 'květen', 5, 'Ivo', '', ''),
+(141, 20, 'květen', 5, 'Zbyšek', '', ''),
+(142, 21, 'květen', 5, 'Monika', '', ''),
+(143, 22, 'květen', 5, 'Emil', '', ''),
+(144, 23, 'květen', 5, 'Vladimír', '', ''),
+(145, 24, 'květen', 5, 'Jana', '', ''),
+(146, 25, 'květen', 5, 'Viola', '', ''),
+(147, 26, 'květen', 5, 'Filip', '', ''),
+(148, 27, 'květen', 5, 'Valdemar', '', ''),
+(149, 28, 'květen', 5, 'Vilém', '', ''),
+(150, 29, 'květen', 5, 'Maxmilián', 'Maxim', ''),
+(151, 30, 'květen', 5, 'Ferdinand', '', ''),
+(152, 31, 'květen', 5, 'Kamila', '', ''),
+(153, 1, 'červen', 6, 'Laura', '', ''),
+(154, 2, 'červen', 6, 'Jarmil', '', ''),
+(155, 3, 'červen', 6, 'Tamara', '', ''),
+(156, 4, 'červen', 6, 'Dalibor', '', ''),
+(157, 5, 'červen', 6, 'Dobroslav', '', ''),
+(158, 6, 'červen', 6, 'Norbert', '', ''),
+(159, 7, 'červen', 6, 'Iveta', 'Slavoj', ''),
+(160, 8, 'červen', 6, 'Medard', '', ''),
+(161, 9, 'červen', 6, 'Stanislava', '', ''),
+(162, 10, 'červen', 6, 'Gita', '', ''),
+(163, 11, 'červen', 6, 'Bruno', '', ''),
+(164, 12, 'červen', 6, 'Antonie', '', ''),
+(165, 13, 'červen', 6, 'Antonín', '', ''),
+(166, 14, 'červen', 6, 'Roland', '', ''),
+(167, 15, 'červen', 6, 'Vít', '', ''),
+(168, 16, 'červen', 6, 'Zbyněk', '', ''),
+(169, 17, 'červen', 6, 'Adolf', '', ''),
+(170, 18, 'červen', 6, 'Milan', '', ''),
+(171, 19, 'červen', 6, 'Leoš', '', ''),
+(172, 20, 'červen', 6, 'Květa', '', ''),
+(173, 21, 'červen', 6, 'Alois', '', ''),
+(174, 22, 'červen', 6, 'Pavla', '', ''),
+(175, 23, 'červen', 6, 'Zdeňka', '', ''),
+(176, 24, 'červen', 6, 'Jan', '', ''),
+(177, 25, 'červen', 6, 'Ivan', '', ''),
+(178, 26, 'červen', 6, 'Adriana', '', ''),
+(179, 27, 'červen', 6, 'Ladislav', '', ''),
+(180, 28, 'červen', 6, 'Lubomír', '', ''),
+(181, 29, 'červen', 6, 'Petr', 'Pavel', ''),
+(182, 30, 'červen', 6, 'Šárka', '', ''),
+(183, 1, 'červenec', 7, 'Jaroslava', '', ''),
+(184, 2, 'červenec', 7, 'Patricie', '', ''),
+(185, 3, 'červenec', 7, 'Radomír', '', ''),
+(186, 4, 'červenec', 7, 'Prokop', '', ''),
+(187, 5, 'červenec', 7, 'Státní svátek', 'Cyril a Metoděj', ''),
+(188, 6, 'červenec', 7, 'Státní svátek', 'Upálení Jana Husa', ''),
+(189, 7, 'červenec', 7, 'Bohuslava', '', ''),
+(190, 8, 'červenec', 7, 'Nora', '', ''),
+(191, 9, 'červenec', 7, 'Drahoslava', '', ''),
+(192, 10, 'červenec', 7, 'Libuše', 'Amálie', ''),
+(193, 11, 'červenec', 7, 'Olga', '', ''),
+(194, 12, 'červenec', 7, 'Bořek', '', ''),
+(195, 13, 'červenec', 7, 'Markéta', '', ''),
+(196, 14, 'červenec', 7, 'Karolína', '', ''),
+(197, 15, 'červenec', 7, 'Jindřich', '', ''),
+(198, 16, 'červenec', 7, 'Luboš', '', ''),
+(199, 17, 'červenec', 7, 'Martina', '', ''),
+(200, 18, 'červenec', 7, 'Drahomíra', '', ''),
+(201, 19, 'červenec', 7, 'Čeněk', '', ''),
+(202, 20, 'červenec', 7, 'Ilja', '', ''),
+(203, 21, 'červenec', 7, 'Vítězslav', '', ''),
+(204, 22, 'červenec', 7, 'Magdaléna', '', ''),
+(205, 23, 'červenec', 7, 'Libor', '', ''),
+(206, 24, 'červenec', 7, 'Kristýna', '', ''),
+(207, 25, 'červenec', 7, 'Jakub', '', ''),
+(208, 26, 'červenec', 7, 'Anna', '', ''),
+(209, 27, 'červenec', 7, 'Věroslav', '', ''),
+(210, 28, 'červenec', 7, 'Viktor', '', ''),
+(211, 29, 'červenec', 7, 'Marta', '', ''),
+(212, 30, 'červenec', 7, 'Bořivoj', '', ''),
+(213, 31, 'červenec', 7, 'Ignác', '', ''),
+(214, 1, 'srpen', 8, 'Oskar', '', ''),
+(215, 2, 'srpen', 8, 'Gustav', '', ''),
+(216, 3, 'srpen', 8, 'Miluše', '', ''),
+(217, 4, 'srpen', 8, 'Dominik', '', ''),
+(218, 5, 'srpen', 8, 'Kristián', '', ''),
+(219, 6, 'srpen', 8, 'Oldřiška', '', ''),
+(220, 7, 'srpen', 8, 'Lada', '', ''),
+(221, 8, 'srpen', 8, 'Soběslav', '', ''),
+(222, 9, 'srpen', 8, 'Roman', '', ''),
+(223, 10, 'srpen', 8, 'Vavřinec', '', ''),
+(224, 11, 'srpen', 8, 'Zuzana', '', ''),
+(225, 12, 'srpen', 8, 'Klára', '', ''),
+(226, 13, 'srpen', 8, 'Alena', '', ''),
+(227, 14, 'srpen', 8, 'Alan', '', ''),
+(228, 15, 'srpen', 8, 'Hana', '', ''),
+(229, 16, 'srpen', 8, 'Jáchym', '', ''),
+(230, 17, 'srpen', 8, 'Petra', '', ''),
+(231, 18, 'srpen', 8, 'Helena', '', ''),
+(232, 19, 'srpen', 8, 'Ludvík', '', ''),
+(233, 20, 'srpen', 8, 'Bernard', '', ''),
+(234, 21, 'srpen', 8, 'Johana', '', ''),
+(235, 22, 'srpen', 8, 'Bohuslav', '', ''),
+(236, 23, 'srpen', 8, 'Sandra', '', ''),
+(237, 24, 'srpen', 8, 'Bartoloměj', '', ''),
+(238, 25, 'srpen', 8, 'Radim', '', ''),
+(239, 26, 'srpen', 8, 'Luděk', '', ''),
+(240, 27, 'srpen', 8, 'Otakar', '', ''),
+(241, 28, 'srpen', 8, 'Augustýn', '', ''),
+(242, 29, 'srpen', 8, 'Evelína', '', ''),
+(243, 30, 'srpen', 8, 'Vladěna', '', ''),
+(244, 31, 'srpen', 8, 'Pavlína', '', ''),
+(245, 1, 'září', 9, 'Linda', 'Samuel', ''),
+(246, 2, 'září', 9, 'Adéla', '', ''),
+(247, 3, 'září', 9, 'Bronislav', '', ''),
+(248, 4, 'září', 9, 'Jindřiška', '', ''),
+(249, 5, 'září', 9, 'Boris', '', ''),
+(250, 6, 'září', 9, 'Boleslav', '', ''),
+(251, 7, 'září', 9, 'Regína', '', ''),
+(252, 8, 'září', 9, 'Mariana', '', ''),
+(253, 9, 'září', 9, 'Daniela', '', ''),
+(254, 10, 'září', 9, 'Irma', '', ''),
+(255, 11, 'září', 9, 'Denisa', '', ''),
+(256, 12, 'září', 9, 'Marie', '', ''),
+(257, 13, 'září', 9, 'Lubor', '', ''),
+(258, 14, 'září', 9, 'Radka', '', ''),
+(259, 15, 'září', 9, 'Jolana', '', ''),
+(260, 16, 'září', 9, 'Ludmila', '', ''),
+(261, 17, 'září', 9, 'Naděžda', '', ''),
+(262, 18, 'září', 9, 'Kryštof', '', ''),
+(263, 19, 'září', 9, 'Zita', '', ''),
+(264, 20, 'září', 9, 'Oleg', '', ''),
+(265, 21, 'září', 9, 'Matouš', '', ''),
+(266, 22, 'září', 9, 'Darina', '', ''),
+(267, 23, 'září', 9, 'Berta', '', ''),
+(268, 24, 'září', 9, 'Jaromír', '', ''),
+(269, 25, 'září', 9, 'Zlata', '', ''),
+(270, 26, 'září', 9, 'Andrea', '', ''),
+(271, 27, 'září', 9, 'Jonáš', '', ''),
+(272, 28, 'září', 9, 'Státní svátek', 'Den české státnosti', ''),
+(273, 29, 'září', 9, 'Michal', '', ''),
+(274, 30, 'září', 9, 'Jeroným', '', ''),
+(275, 1, 'říjen', 10, 'Igor', '', ''),
+(276, 2, 'říjen', 10, 'Olivie', 'Oliver', ''),
+(277, 3, 'říjen', 10, 'Bohumil', '', ''),
+(278, 4, 'říjen', 10, 'František', '', ''),
+(279, 5, 'říjen', 10, 'Eliška', '', ''),
+(280, 6, 'říjen', 10, 'Hanuš', '', ''),
+(281, 7, 'říjen', 10, 'Justýna', '', ''),
+(282, 8, 'říjen', 10, 'Věra', '', ''),
+(283, 9, 'říjen', 10, 'Štefan', 'Sára', ''),
+(284, 10, 'říjen', 10, 'Marina', '', ''),
+(285, 11, 'říjen', 10, 'Andrej', '', ''),
+(286, 12, 'říjen', 10, 'Marcel', '', ''),
+(287, 13, 'říjen', 10, 'Renáta', '', ''),
+(288, 14, 'říjen', 10, 'Agáta', '', ''),
+(289, 15, 'říjen', 10, 'Tereza', '', ''),
+(290, 16, 'říjen', 10, 'Havel', '', ''),
+(291, 17, 'říjen', 10, 'Hedvika', '', ''),
+(292, 18, 'říjen', 10, 'Lukáš', '', ''),
+(293, 19, 'říjen', 10, 'Michaela', '', ''),
+(294, 20, 'říjen', 10, 'Vendelín', '', ''),
+(295, 21, 'říjen', 10, 'Brigita', '', ''),
+(296, 22, 'říjen', 10, 'Sabina', '', ''),
+(297, 23, 'říjen', 10, 'Teodor', '', ''),
+(298, 24, 'říjen', 10, 'Nina', '', ''),
+(299, 25, 'říjen', 10, 'Beáta', '', ''),
+(300, 26, 'říjen', 10, 'Erik', '', ''),
+(301, 27, 'říjen', 10, 'Šarlota', 'Zoe', ''),
+(302, 28, 'říjen', 10, 'Státní svátek', 'Den vzniku samostatného československého státu', ''),
+(303, 29, 'říjen', 10, 'Silvie', '', ''),
+(304, 30, 'říjen', 10, 'Tadeáš', '', ''),
+(305, 31, 'říjen', 10, 'Štěpánka', '', ''),
+(306, 1, 'listopad', 11, 'Felix', '', ''),
+(307, 2, 'listopad', 11, 'Památka zesnulých', '', ''),
+(308, 3, 'listopad', 11, 'Hubert', '', ''),
+(309, 4, 'listopad', 11, 'Karel', '', ''),
+(310, 5, 'listopad', 11, 'Miriam', '', ''),
+(311, 6, 'listopad', 11, 'Liběna', '', ''),
+(312, 7, 'listopad', 11, 'Saskie', '', ''),
+(313, 8, 'listopad', 11, 'Bohumír', '', ''),
+(314, 9, 'listopad', 11, 'Bohdan', '', ''),
+(315, 10, 'listopad', 11, 'Evľen', '', ''),
+(316, 11, 'listopad', 11, 'Martin', '', ''),
+(317, 12, 'listopad', 11, 'Benedikt', '', ''),
+(318, 13, 'listopad', 11, 'Tibor', '', ''),
+(319, 14, 'listopad', 11, 'Sáva', '', ''),
+(320, 15, 'listopad', 11, 'Leopold', '', ''),
+(321, 16, 'listopad', 11, 'Otmar', '', ''),
+(322, 17, 'listopad', 11, 'Státní svátek', 'Den boje za svobodu a demokracii', 'Mahulena'),
+(323, 18, 'listopad', 11, 'Romana', '', ''),
+(324, 19, 'listopad', 11, 'Alžběta', '', ''),
+(325, 20, 'listopad', 11, 'Nikola', '', ''),
+(326, 21, 'listopad', 11, 'Albert', '', ''),
+(327, 22, 'listopad', 11, 'Cecílie', '', ''),
+(328, 23, 'listopad', 11, 'Klement', '', ''),
+(329, 24, 'listopad', 11, 'Emílie', '', ''),
+(330, 25, 'listopad', 11, 'Kateřina', '', ''),
+(331, 26, 'listopad', 11, 'Artur', '', ''),
+(332, 27, 'listopad', 11, 'Xenie', '', ''),
+(333, 28, 'listopad', 11, 'René', '', ''),
+(334, 29, 'listopad', 11, 'Zina', '', ''),
+(335, 30, 'listopad', 11, 'Ondřej', '', ''),
+(336, 1, 'prosinec', 12, 'Iva', '', ''),
+(337, 2, 'prosinec', 12, 'Blanka', '', ''),
+(338, 3, 'prosinec', 12, 'Svatoslav', '', ''),
+(339, 4, 'prosinec', 12, 'Barbora', '', ''),
+(340, 5, 'prosinec', 12, 'Jitka', '', ''),
+(341, 6, 'prosinec', 12, 'Mikuláš', '', ''),
+(342, 7, 'prosinec', 12, 'Ambrož', 'Benjamín', ''),
+(343, 8, 'prosinec', 12, 'Květoslava', '', ''),
+(344, 9, 'prosinec', 12, 'Vratislav', '', ''),
+(345, 10, 'prosinec', 12, 'Julie', '', ''),
+(346, 11, 'prosinec', 12, 'Dana', '', ''),
+(347, 12, 'prosinec', 12, 'Simona', '', ''),
+(348, 13, 'prosinec', 12, 'Lucie', '', ''),
+(349, 14, 'prosinec', 12, 'Lýdie', '', ''),
+(350, 15, 'prosinec', 12, 'Radana', 'Radan', ''),
+(351, 16, 'prosinec', 12, 'Albína', '', ''),
+(352, 17, 'prosinec', 12, 'Daniel', '', ''),
+(353, 18, 'prosinec', 12, 'Miloslav', '', ''),
+(354, 19, 'prosinec', 12, 'Ester', '', ''),
+(355, 20, 'prosinec', 12, 'Dagmar', '', ''),
+(356, 21, 'prosinec', 12, 'Natálie', '', ''),
+(357, 22, 'prosinec', 12, 'Šimon', '', ''),
+(358, 23, 'prosinec', 12, 'Vlasta', '', ''),
+(359, 24, 'prosinec', 12, 'Štědrý den', 'Adam', 'Eva'),
+(360, 25, 'prosinec', 12, '1. svátek vánoční', 'Boží hod vánoční', ''),
+(361, 26, 'prosinec', 12, '2. svátek vánoční', 'Štěpán', ''),
+(362, 27, 'prosinec', 12, 'Žaneta', '', ''),
+(363, 28, 'prosinec', 12, 'Bohumila', '', ''),
+(364, 29, 'prosinec', 12, 'Judita', '', ''),
+(365, 30, 'prosinec', 12, 'David', '', ''),
+(366, 31, 'prosinec', 12, 'Silvestr', '', '');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `ecm_category`
+--
+
+CREATE TABLE `ecm_category` (
+  `id` int(11) NOT NULL,
+  `name` text NOT NULL,
+  `description` text NOT NULL,
+  `parent` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `ecm_category`
+--
+
+INSERT INTO `ecm_category` (`id`, `name`, `description`, `parent`) VALUES
+(1, 'hlavní kategorie', 'popis hlavní kategorie', NULL),
+(2, 'podkategorie hlavní kategorie', 'popis podkategorie hlavní kategorie', 1),
+(3, 'druhá podkategorie hlavní kategorie', 'popis druhé podkategorie hlavní kategorie', 1),
+(4, 'podkategorie první podkategorie hlavní kategorie', 'popis podkategorie první podkategorie hlavní kategorie', 2);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `file_type`
+--
+
+CREATE TABLE `file_type` (
+  `id` int(11) NOT NULL,
+  `name` text NOT NULL,
+  `suffix` text NOT NULL,
+  `is_danger` tinyint(1) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `notes`
+--
+
+CREATE TABLE `notes` (
+  `id` int(11) NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `content` mediumtext NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `notes`
+--
+
+INSERT INTO `notes` (`id`, `name`, `content`, `created_at`) VALUES
+(12, 'Co je ještě na práci', '<ul>\n<li>Takže nejdřív se musí to,</li>\n<li>a pak tohle</li>\n</ul>', '2016-05-02 17:01:58'),
+(13, 'Blbost', '<p>dřív se musí to, a pak tohledřív se musí to, a pak tohledřív se musí to, a pak tohledřív se musí to, a pak tohledřív se musí to, a pak tohledřív se musí to, a pak tohledřív se musí to, a pak tohledřív se musí to, a pak tohledřív se musí to, a pak tohledřív se musí to, a pak tohledřív se musí to, a pak tohledřív se musí to, a pak tohledřív se musí to, a pak tohledřív se musí to, a pak tohledřív se musí to, a pak tohledřív se musí to, a pak tohledřív se musí to, a pak tohledřív se musí to, a pak tohledřív se musí to, a pak tohledřív se musí to, a pak tohledřív se musí to, a pak tohledřív se musí to, a pak tohledřív se musí to, a pak tohledřív se musí to, a pak tohledřív se musí to, a pak tohledřív se musí to, a pak tohledřív se musí to, a pak tohledřív se musí to, a pak tohledřív se musí to, a pak tohledřív se musí to, a pak tohledřív se musí to, a pak tohledřív se musí to, a pak tohledřív se musí to, a pak tohledřív se musí to, a pak tohledřív se musí to, a pak tohledřív se musí to, a pak tohledřív se musí to, a pak tohledřív se musí to, a pak tohledřív se musí to, a pak tohledřív se musí to, a pak tohledřív se musí to, a pak tohledřív se musí to, a pak tohledřív se musí to, a pak tohledřív se musí to, a pak tohledřív se musí to, a pak tohledřív se musí to, a pak tohledřív se musí to, a pak tohledřív se musí to, a pak tohledřív se musí to, a pak tohledřív se musí to, a pak tohledřív se musí to, a pak tohledřív se musí to, a pak tohledřív se musí to, a pak tohledřív se musí to, a pak tohledřív se musí to, a pak tohledřív se musí to, a pak tohledřív se musí to, a pak tohledřív se musí to, a pak tohledřív se musí to, a pak tohledřív se musí to, a pak tohledřív se musí to, a pak tohledřív se musí to, a pak tohledřív se musí to, a pak tohledřív se musí to, a pak tohledřív se musí to, a pak tohledřív se musí to, a pak tohledřív se musí to, a pak tohledřív se musí to, a pak tohledřív se musí to, a pak tohledřív se musí to, a pak tohledřív se musí to, a pak tohledřív se musí to, a pak tohledřív se musí to, a pak tohledřív se musí to, a pak tohledřív se musí to, a pak tohledřív se musí to, a pak tohledřív se musí to, a pak tohledřív se musí to, a pak tohledřív se musí to, a pak tohledřív se musí to, a pak tohle</p>', '2016-05-02 17:07:34');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pages`
+--
+
+CREATE TABLE `pages` (
+  `id` int(11) NOT NULL,
+  `title` varchar(100) NOT NULL,
+  `url` varchar(255) NOT NULL,
+  `page_type` int(5) NOT NULL,
+  `parent` int(11) DEFAULT NULL,
+  `order` int(2) NOT NULL,
+  `content` longtext NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `public_from` timestamp NULL DEFAULT NULL,
+  `public_to` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `description` text NOT NULL,
+  `meta` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `pages`
+--
+
+INSERT INTO `pages` (`id`, `title`, `url`, `page_type`, `parent`, `order`, `content`, `created_at`, `public_from`, `public_to`, `description`, `meta`) VALUES
+(1, 'Úvodní stránka', 'uvod', 1, NULL, 1, 'obsah první stránky', '2016-05-03 16:03:13', NULL, '0000-00-00 00:00:00', '', ''),
+(2, 'Můj životopis', 'druha', 1, 4, 1, 'Obsah první podstránky', '2016-05-03 16:09:37', NULL, '0000-00-00 00:00:00', '', ''),
+(3, 'Moje koníčky', 'treti', 1, 4, 2, 'asdfsadf', '2016-05-04 13:31:11', NULL, '0000-00-00 00:00:00', '', ''),
+(4, 'O mě', 'ops', 1, NULL, 4, 'Text', '2016-05-05 14:11:55', NULL, '0000-00-00 00:00:00', '', ''),
+(5, 'Ceník', 'cenik', 1, NULL, 3, 'Ceník všech služeb', '2016-05-05 15:07:29', NULL, '0000-00-00 00:00:00', '', ''),
+(6, 'Kouzelnické vystoupení', 'kouzelnicke_vystoupeni', 1, 5, 2, 'kouzelníííček', '2016-05-05 15:09:30', NULL, '0000-00-00 00:00:00', '', ''),
+(7, 'IT služby', 'it-sluzby', 1, 5, 1, '', '2016-05-05 15:09:30', NULL, '0000-00-00 00:00:00', '', ''),
+(8, 'asdf', 'article', 1, NULL, 0, '', '2016-06-07 12:38:51', NULL, '0000-00-00 00:00:00', '', ''),
+(9, 'Article', 'article', 1, NULL, 6, 'sdf', '2016-06-07 12:39:46', '2016-06-01 22:00:00', '0000-00-00 00:00:00', 'asdf', '\r\n');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pages_type`
+--
+
+CREATE TABLE `pages_type` (
+  `id` int(11) NOT NULL,
+  `page_type` varchar(15) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `pages_type`
+--
+
+INSERT INTO `pages_type` (`id`, `page_type`) VALUES
+(1, 'NormalPage');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `todo`
+--
+
+CREATE TABLE `todo` (
+  `id` int(11) NOT NULL,
+  `task` text NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `done_to` timestamp NULL DEFAULT NULL,
+  `priority` int(1) NOT NULL,
+  `is_done` tinyint(1) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `todo`
+--
+
+INSERT INTO `todo` (`id`, `task`, `created_at`, `done_to`, `priority`, `is_done`) VALUES
+(5, 'Jeden hotový :)', '2016-05-11 19:02:08', NULL, 1, 1),
+(18, 'Napsat prvních 10 stránek bakalářky', '2016-05-12 14:10:22', '2016-06-30 10:00:00', 9, 0),
+(19, 'Zajít do spořitelny kvůli HGK dollaru', '2016-05-12 14:10:44', '2016-06-30 10:00:00', 4, 0),
+(20, 'Zajít ke Kvasničkové kvůli antibiotikům a cestě do HGK', '2016-05-12 14:11:01', '2016-06-30 10:00:00', 8, 0),
+(21, 'Objednat se k zubařce', '2016-05-12 14:11:23', '2016-06-01 10:00:00', 8, 1),
+(22, 'Dodělat eshop o-agon', '2016-05-12 14:11:39', NULL, 8, 0),
+(23, 'Dodělat eshop vyda-vyberdarku.cz', '2016-05-12 14:11:53', NULL, 5, 0),
+(24, 'Zavolat operátorovi kvůli roamingu', '2016-05-12 14:12:07', '2016-07-04 10:00:00', 5, 0),
+(25, 'Zajít do ZPMVČR kvůli proplacení očkování', '2016-05-12 14:12:33', '2016-07-04 10:00:00', 4, 1),
+(26, 'Naučit se na právo', '2016-05-12 14:13:56', '2016-05-24 07:30:00', 9, 1),
+(27, 'Zkouška z TNPW1', '2016-05-12 14:14:13', '2016-05-18 07:30:00', 5, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `users`
+--
+
+CREATE TABLE `users` (
+  `id` int(10) NOT NULL,
+  `username` varchar(50) NOT NULL,
+  `email` varchar(50) NOT NULL,
+  `password` char(60) NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `role` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`id`, `username`, `email`, `password`, `name`, `role`) VALUES
+(11, 'dominik01@email.cz', 'dominik01@email.cz', '$2y$10$vRdTs6apWA1mGI2ihhJXFezAYv9Yv/oje5qLsIBG1GhwIRrIy2ciC', 'Dominik Bydžovský', 'admin');
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `addresses`
+--
+ALTER TABLE `addresses`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `attachments`
+--
+ALTER TABLE `attachments`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `file_type` (`file_type`),
+  ADD KEY `ecm_category_id` (`ecm_category_id`);
+
+--
+-- Indexes for table `contacts`
+--
+ALTER TABLE `contacts`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `svatekKontaktu` (`nameday`),
+  ADD KEY `birthday` (`birthday`),
+  ADD KEY `birthday_2` (`birthday`),
+  ADD KEY `address` (`address`),
+  ADD KEY `day_of_year_birthday` (`day_of_year_birthday`);
+
+ALTER TABLE `contacts`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `svatekKontaktu` (`nameday`),
+  ADD KEY `birthday` (`birthday`),
+  ADD KEY `day_of_year_birthday` (`day_of_year_birthday`);
+--
+-- Indexes for table `days`
+--
+ALTER TABLE `days`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `ecm_category`
+--
+ALTER TABLE `ecm_category`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `parent` (`parent`);
+
+--
+-- Indexes for table `file_type`
+--
+ALTER TABLE `file_type`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `notes`
+--
+ALTER TABLE `notes`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `pages`
+--
+ALTER TABLE `pages`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `page_type` (`page_type`),
+  ADD KEY `parent` (`parent`),
+  ADD KEY `url_index` (`url`(150));
+
+--
+-- Indexes for table `pages_type`
+--
+ALTER TABLE `pages_type`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `page_type` (`page_type`);
+
+--
+-- Indexes for table `todo`
+--
+ALTER TABLE `todo`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `users`
+--
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `username` (`email`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `addresses`
+--
+ALTER TABLE `addresses`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+--
+-- AUTO_INCREMENT for table `attachments`
+--
+ALTER TABLE `attachments`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `contacts`
+--
+ALTER TABLE `contacts`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+--
+-- AUTO_INCREMENT for table `days`
+--
+ALTER TABLE `days`
+  MODIFY `id` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=367;
+--
+-- AUTO_INCREMENT for table `ecm_category`
+--
+ALTER TABLE `ecm_category`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+--
+-- AUTO_INCREMENT for table `notes`
+--
+ALTER TABLE `notes`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+--
+-- AUTO_INCREMENT for table `pages`
+--
+ALTER TABLE `pages`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+--
+-- AUTO_INCREMENT for table `pages_type`
+--
+ALTER TABLE `pages_type`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+--
+-- AUTO_INCREMENT for table `todo`
+--
+ALTER TABLE `todo`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+--
+-- AUTO_INCREMENT for table `users`
+--
+ALTER TABLE `users`
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `attachments`
+--
+ALTER TABLE `attachments`
+  ADD CONSTRAINT `ecm_category_of_file` FOREIGN KEY (`ecm_category_id`) REFERENCES `ecm_category` (`id`),
+  ADD CONSTRAINT `file_type_of_attachment_foreign_key` FOREIGN KEY (`file_type`) REFERENCES `file_type` (`id`);
+
+--
+-- Constraints for table `contacts`
+--
+ALTER TABLE `contacts`
+  ADD CONSTRAINT `svatekKontaktu` FOREIGN KEY (`nameday`) REFERENCES `days` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Constraints for table `ecm_category`
+--
+ALTER TABLE `ecm_category`
+  ADD CONSTRAINT `předek_kategorie` FOREIGN KEY (`parent`) REFERENCES `ecm_category` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `pages`
+--
+ALTER TABLE `pages`
+  ADD CONSTRAINT `stránka_stránky` FOREIGN KEY (`parent`) REFERENCES `pages` (`id`),
+  ADD CONSTRAINT `typ_stranky` FOREIGN KEY (`page_type`) REFERENCES `pages_type` (`id`);
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -25,9 +26,10 @@ import java.util.List;
 import bydzovsky.dominik.birthdayapp.model.MyArrayAdapter;
 import bydzovsky.dominik.birthdayapp.model.Person;
 import bydzovsky.dominik.birthdayapp.utility.Service;
-
+// URL address to upload my project bit.ly/2a0TZRM
 public class MainActivity extends AppCompatActivity {
-    Service s = new Service();
+    Service s = new Service(getBaseContext());
+
     ListView lstView;
 
     @Override
@@ -48,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
 //
 //            }
 //        });
-
+//
 
         TextView celebrates = (TextView) findViewById(R.id.today_celebrates);
         Date date = new Date();
@@ -65,7 +67,16 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    public void check_show_all_checkbox(View view){
+        CheckBox showAllCheckBox = (CheckBox) findViewById(R.id.show_all_checkbox);
+        if (showAllCheckBox.isChecked()){
+            setContentOfListView();
+        }
 
+    }
+    public void refreshAll(){
+
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -82,30 +93,20 @@ public class MainActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            MenuItem itemSettings = (MenuItem) findViewById(R.id.action_settings);
-            itemSettings.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-                @Override
-                public boolean onMenuItemClick(MenuItem item) {
-                    Intent intent = new Intent(getParent(), SettingsActivity.class);
-                    getParent().startActivity(intent);
-                    return true;
-                }
-            });
-            return true;
+            Intent intent = new Intent(this, SettingsActivity.class);
+            startActivity(intent);
+
         }
         if (id == R.id.action_about) {
-            MenuItem itemAbout = (MenuItem) findViewById(R.id.action_about);
-            itemAbout.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-                @Override
-                public boolean onMenuItemClick(MenuItem item) {
-                    Intent intent = new Intent(getParent(), AboutActivity.class);
-                    getParent().startActivity(intent);
-                    return true;
-                }
-            });
-            return true;
+
+            Intent intent = new Intent(this, AboutActivity.class);
+            startActivity(intent);
+
         }
 
+        if (id==android.R.id.home) {
+            finish();
+        }
         return super.onOptionsItemSelected(item);
     }
 

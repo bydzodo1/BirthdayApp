@@ -85,9 +85,5 @@
             android:layout_height="wrap_content"
             android:id="@+id/birthday"/>
     </LinearLayout>
-    <TextView
-        android:id="@+id/person_id"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="n"/>
+
 </LinearLayout>

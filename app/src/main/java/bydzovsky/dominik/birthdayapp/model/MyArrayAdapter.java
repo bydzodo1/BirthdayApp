@@ -10,6 +10,8 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 
 import bydzovsky.dominik.birthdayapp.MainActivity;
@@ -41,7 +43,7 @@ public class MyArrayAdapter extends ArrayAdapter<Person> {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mainActivity, PersonDetailActivity.class);
-                intent.putExtra("EXTRA_MESSAGE", person_id);
+                intent.putExtra("EXTRA_MESSAGE", new Integer(person_id));
                 mainActivity.startActivity(intent);
             }
         });
