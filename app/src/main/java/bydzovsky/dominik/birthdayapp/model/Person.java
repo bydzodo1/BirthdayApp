@@ -15,10 +15,13 @@ public class Person implements Comparable {
     private String nameday;
     private int dayOfCelebration;
     private int celebratesWhat;
+    private String phone;
+    private String address;
+    private String other;
     public static final int NAMEDAY = 0;
     public static final int BIRTHDAY = 1;
 
-    public Person(int id, String name, String surname, String email, String nameday, Date birthday, int celebratesWhat, int dayOfCelebration) {
+    public Person(int id, String name, String surname, String email, String nameday, Date birthday, int celebratesWhat, int dayOfCelebration, String phone, String address, String other) {
         this.id = id;
         this.name = name;
         this.surname = surname;
@@ -27,6 +30,33 @@ public class Person implements Comparable {
         this.birthday = birthday;
         this.celebratesWhat = celebratesWhat;
         this.dayOfCelebration = dayOfCelebration;
+        this.phone = phone;
+        this.address = address;
+        this.other = other;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public String getOther() {
+        return other;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public void setOther(String other) {
+        this.other = other;
     }
 
     public String getName() {
@@ -63,8 +93,10 @@ public class Person implements Comparable {
 
     public int getAge(){
         Calendar calendar = Calendar.getInstance();
-        int year = calendar.get(Calendar.YEAR);
-        return year - birthday.getYear();
+        int todaysYear = calendar.get(Calendar.YEAR);
+        calendar.setTime(birthday);
+        int personsYear = calendar.get(Calendar.YEAR);
+        return todaysYear - personsYear;
     }
     @Override
     public int compareTo(Object another) {

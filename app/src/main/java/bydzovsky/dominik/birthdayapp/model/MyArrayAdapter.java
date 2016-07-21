@@ -3,6 +3,7 @@ package bydzovsky.dominik.birthdayapp.model;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,8 @@ import android.widget.TextView;
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 import bydzovsky.dominik.birthdayapp.MainActivity;
 import bydzovsky.dominik.birthdayapp.PersonDetailActivity;
@@ -24,12 +27,14 @@ public class MyArrayAdapter extends ArrayAdapter<Person> {
     private final Context context;
     private final ArrayList<Person> values;
     private final MainActivity mainActivity;
+    private final Service service;
 
     public MyArrayAdapter(Context context, ArrayList<Person> values, MainActivity mainActivity) {
         super(context, -1, values);
         this.context = context;
         this.values = values;
         this.mainActivity = mainActivity;
+        this.service = mainActivity.getService();
     }
 
     @Override
@@ -52,25 +57,36 @@ public class MyArrayAdapter extends ArrayAdapter<Person> {
 
         TextView whatCelebratesTextView = (TextView) rowView.findViewById(R.id.whatCelebrates);
         ImageView imageView = (ImageView) rowView.findViewById(R.id.smile);
+        int resid = mainActivity.getResources().getIdentifier("face" + person_id, "drawable", mainActivity.getPackageName());
+        imageView.setImageResource(resid);
+
         TextView nameTextView = (TextView) rowView.findViewById(R.id.name);
         TextView surnameTextView = (TextView) rowView.findViewById(R.id.surname);
         TextView dateTextView = (TextView) rowView.findViewById(R.id.birthday);
         TextView yearOldTextView = (TextView) rowView.findViewById(R.id.yearOld);
-
+        TextView labelForYearOld = (TextView) rowView.findViewById(R.id.detail);
+        TextView labelCelebrates = (TextView) rowView.findViewById(R.id.celebrates);
         //imageView.setImageDrawable();
         nameTextView.setText(person.getName());
         surnameTextView.setText(person.getSurname());
-        dateTextView.setText(Service.formatDate(person.getBirthday()));
-        yearOldTextView.setText(person.getAge() + "");
+
+
 // -------------------setBackgroundColorOfLayoutAccordingToCelebration(relativeLayout, person);
 
         if (person.getCelebratesWhat() == Person.BIRTHDAY) {
-            relativeLayout.setBackgroundColor(Color.parseColor("#FAC9A0"));
-            whatCelebratesTextView.setText("Narozeniny");
+            relativeLayout.setBackgroundColor(getContext().getResources().getColor(R.color.colorBirthday));
+            whatCelebratesTextView.setText("Birthday");
+            dateTextView.setText(Service.formatDate(person.getBirthday()));
+            yearOldTextView.setText(person.getAge() + "");
+            labelCelebrates.setText("has BIRTHDAY on ");
 
         } else if (person.getCelebratesWhat() == Person.NAMEDAY) {
-            relativeLayout.setBackgroundColor(Color.parseColor("#C9645E"));
-            whatCelebratesTextView.setText("Svátek");
+            relativeLayout.setBackgroundColor(getContext().getResources().getColor(R.color.colorNameday));
+            whatCelebratesTextView.setText("Nameday");
+            dateTextView.setText(service.getStringDateAccortingToDayOfYear(person.getNameday()));
+            yearOldTextView.setText("");
+            labelForYearOld.setText("");
+            labelCelebrates.setText("has nameday on ");
         }
         //----------------------------
         return rowView;

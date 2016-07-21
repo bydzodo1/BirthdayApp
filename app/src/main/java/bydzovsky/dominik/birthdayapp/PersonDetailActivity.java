@@ -46,17 +46,26 @@ public class PersonDetailActivity extends AppCompatActivity {
         person = s.get(person_id);
 
         ImageView image_imageView = (ImageView) findViewById(R.id.image);
+        int resid = getResources().getIdentifier("face" + person_id, "drawable", getPackageName());
+        image_imageView.setImageResource(resid);
+
         TextView name_textview = (TextView) findViewById(R.id.name);
         TextView surname_textview = (TextView) findViewById(R.id.surname);
         TextView email_textview = (TextView) findViewById(R.id.email);
         TextView nameday_textview = (TextView) findViewById(R.id.nameday);
         TextView birthday_textview = (TextView) findViewById(R.id.birthday);
+        TextView phone_textview = (TextView) findViewById(R.id.phone);
+        TextView address_textview = (TextView) findViewById(R.id.address);
+        TextView other_textview = (TextView) findViewById(R.id.other);
 
         name_textview.setText(person.getName());
         surname_textview.setText(person.getSurname());
         email_textview.setText(person.getEmail());
-        nameday_textview.setText(person.getNameday());
-        birthday_textview.setText(person.getBirthday().toString());
+        nameday_textview.setText(s.getStringDateAccortingToDayOfYear(person.getNameday()));
+        birthday_textview.setText(Service.formatDate(person.getBirthday()));
+        phone_textview.setText(person.getPhone());
+        address_textview.setText(person.getAddress());
+        other_textview.setText(person.getOther());
     }
 
     public void sendEmailToHonoree(View view){

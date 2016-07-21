@@ -32,6 +32,10 @@ public class MainActivity extends AppCompatActivity {
     Service s = new Service(this);
     ListView lstView;
 
+    public Service getService(){
+        return s;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,23 +55,44 @@ public class MainActivity extends AppCompatActivity {
 //            }
 //        });
 //
+        CheckBox showAllCheckBox = (CheckBox) findViewById(R.id.show_all_checkbox);
+        CheckBox showBirthdayCheckBox = (CheckBox) findViewById(R.id.show_birthday_checkbox);
+        showBirthdayCheckBox.setChecked(true);
+        CheckBox showNamedayCheckBox = (CheckBox) findViewById(R.id.show_nameday_checkbox);
+        showNamedayCheckBox.setChecked(true);
 
         TextView celebrates = (TextView) findViewById(R.id.today_celebrates);
         Date date = new Date();
-        String name = "_____";
-        celebrates.setText("Today's " + date.toString() + " and celebrates " + name);
+        String name = s.whoCelebrates();
+        celebrates.setText("Today's " + Service.formatDate(date) + " and celebrates " + name + ".");
         setContentOfListView(null);
     }
 
     public void setContentOfListView(View view) {
         CheckBox showAllCheckBox = (CheckBox) findViewById(R.id.show_all_checkbox);
+        CheckBox showBirthdayCheckBox = (CheckBox) findViewById(R.id.show_birthday_checkbox);
+        CheckBox showNamedayCheckBox = (CheckBox) findViewById(R.id.show_nameday_checkbox);
+        TextView showDaysTextview = (TextView) findViewById(R.id.showsDays);
+
         int showDays;
         if (showAllCheckBox.isChecked()){
             showDays = 366;
+
         } else {
             showDays = MySQLiteDatabaseHelper.DEFAULT_SHOW_DAYS;
         }
-        ArrayList<Person> listOfPeople = s.getOrderedCelebrationList(showDays);
+
+        showDaysTextview.setText(showDays + " days");
+        ArrayList<Person> listOfPeople;
+        if (showBirthdayCheckBox.isChecked() && showNamedayCheckBox.isChecked()){
+            listOfPeople = s.getOrderedCelebrationList(showDays);
+        } else if (showBirthdayCheckBox.isChecked()){
+            listOfPeople = s.getOrderedBirthdayList(showDays);
+        } else if (showNamedayCheckBox.isChecked()){
+            listOfPeople = s.getOrderedNamedayList(showDays);
+        } else {
+            listOfPeople = new ArrayList<>();
+        }
         ArrayAdapter<Person> adapter = new MyArrayAdapter(getApplicationContext(),
                 listOfPeople, this);
         lstView.setAdapter(adapter);

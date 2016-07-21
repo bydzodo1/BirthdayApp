@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#C9645E</color>
-    <color name="colorPrimaryDark">#52281E</color>
-    <color name="colorAccent">#FAC9A0</color>
-    <color name="colorBackground">#F09F8B</color>
+    <color name="colorPrimary">#99D3DF</color>
+    <color name="colorPrimaryDark">#88BBD6</color>
+    <color name="colorAccent">#3399CC</color>
+    <color name="colorBackground">#FFFFFF</color>
     <color name="colorOther">#C9645E</color>
-    <color name="colorNameday">#FAC9A0</color>
-    <color name="colorBirthday">#C9645E</color>
+    <color name="colorNameday">#E9E9E9</color>
+    <color name="colorBirthday">#CDCDCD</color>
+    <color name="textColorOnNamedayorBirthday">#777</color>
 </resources>
