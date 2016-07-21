@@ -5,4 +5,6 @@
     <color name="colorAccent">#FAC9A0</color>
     <color name="colorBackground">#F09F8B</color>
     <color name="colorOther">#C9645E</color>
+    <color name="colorNameday">#FAC9A0</color>
+    <color name="colorBirthday">#C9645E</color>
 </resources>

@@ -6,26 +6,31 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import java.sql.ResultSet;
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
 
 public class MySQLiteDatabaseHelper extends SQLiteOpenHelper {
-    private final static String DATABASE_NAME = "birthdayapp.db";
-    public final static int DEFAULT_SHOW_DAYS = 366;
+    private static String DB_PATH = "/data/data/bydzovsky.dominik.birthdayapp/databases";
+    private static String DATABASE_NAME = "birthdayapp.db";
+    private Context myContext;
+    public final static int DEFAULT_SHOW_DAYS = 30;
     private SQLiteDatabase db;
 
     public MySQLiteDatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, 1);
-        db = SQLiteDatabase.openOrCreateDatabase(DATABASE_NAME, null);
+        db = SQLiteDatabase.openOrCreateDatabase(DB_PATH, null);
+        onCreate(db);
+        this.myContext = context;
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
         createTableDays();
         createTableContacts();
-        addConstraintsOnTables();
+        //addConstraintsOnTables();
     }
 
     @Override
@@ -43,14 +48,32 @@ public class MySQLiteDatabaseHelper extends SQLiteOpenHelper {
         return getBirthdaysList(from, showDays);
     }
 
+    public ArrayList<Person> getTestData(){
+        ArrayList<Person> listOfPeople = new ArrayList<>();
+//        listOfPeople.add(new Person(1, "David", "Nodopíči", "email", "01.01.", new Date()));
+//        listOfPeople.add(new Person(2, "Petr", "Kundahunda", "email", "01.01.", new Date()));
+//        listOfPeople.add(new Person(3, "Honza", "Strčilhomezivrata", "email", "01.01.", new Date()));
+//        listOfPeople.add(new Person(4, "Kapříček", "Melounek", "email", "01.01.", new Date()));
+//        listOfPeople.add(new Person(5, "Uršule", "Strčjitamprst", "email", "01.01.", new Date()));
+//        listOfPeople.add(new Person(6, "Plešoun", "Sinamazalhlavu", "email", "01.01.", new Date()));
+//        listOfPeople.add(new Person(7, "Hovniválek", "Pršíhovno", "email", "01.01.", new Date()));
+//        listOfPeople.add(new Person(8, "Anežka", "Malékozymá", "email", "01.01.", new Date()));
+        return listOfPeople;
+    }
+
     public ArrayList<Person> getBirthdaysList(int from, int showDays) {
+
+        Calendar calendar = Calendar.getInstance();
+        int todaysDayOfYear = calendar.get(Calendar.DAY_OF_YEAR);
+
+        //return getTestData();
         int toDayOfYear = from + showDays;
         ArrayList<Person> records1 = new ArrayList<>();
         if (toDayOfYear > 366) {
             int fromJan = Math.abs(toDayOfYear - 366);
 
-            Cursor c1 = db.rawQuery("SELECT id, name, surname, email, nameday, birthday FROM contacts WHERE 'day_of_year_birthday' > 0" +
-                    " AND 'day_of_year_birthday < " + fromJan + "' ORDER BY 'day_of_year_birthday'", null);
+            Cursor c1 = db.rawQuery("SELECT id, name, surname, email, nameday, birthday, day_of_year_birthday FROM contacts WHERE day_of_year_birthday > 0" +
+                    " AND day_of_year_birthday < " + fromJan + " ORDER BY day_of_year_birthday", null);
 
             c1.moveToFirst();
             while (c1.moveToNext()) {
@@ -60,14 +83,16 @@ public class MySQLiteDatabaseHelper extends SQLiteOpenHelper {
                 String email = c1.getString(3);
                 String nameday = c1.getString(4);
                 Date birthday = java.sql.Date.valueOf(c1.getString(5));
-                records1.add(new Person(id, name, surname, email, nameday, birthday));
+                int dayOfYearBirthday = c1.getInt(6);
+                if (!is_leap_year() && todaysDayOfYear > 59) dayOfYearBirthday--;
+                records1.add(new Person(id, name, surname, email, nameday, birthday, Person.BIRTHDAY ,dayOfYearBirthday));
             }
         }
 
         ArrayList<Person> records2 = new ArrayList<>();
 
-        Cursor c2 = db.rawQuery("SELECT * FROM contacts WHERE 'day_of_year_birthday' > " + from +
-                " AND 'day_of_year_birthday < " + toDayOfYear + "' ORDER BY 'day_of_year_birthday'", null);
+        Cursor c2 = db.rawQuery("SELECT id,name,surname,email,nameday,birthday,day_of_year_birthday FROM contacts WHERE day_of_year_birthday > " + from +
+                " AND day_of_year_birthday < " + toDayOfYear + " ORDER BY day_of_year_birthday", null);
 
         c2.moveToFirst();
         while (c2.moveToNext()) {
@@ -76,8 +101,20 @@ public class MySQLiteDatabaseHelper extends SQLiteOpenHelper {
             String surname = c2.getString(2);
             String email = c2.getString(3);
             String nameday = c2.getString(4);
-            Date birthday = java.sql.Date.valueOf(c2.getString(5));
-            records2.add(new Person(id, name, surname, email, nameday, birthday));
+            String dateString = c2.getString(5);
+            int dayOfYearBirthday = c2.getInt(6);
+            if (!is_leap_year() && todaysDayOfYear > 59) dayOfYearBirthday--;
+            Date birthday;
+            try {
+                birthday = DateFormat.getDateInstance().parse(dateString);
+            } catch (Exception e){
+                e.printStackTrace();
+                birthday = new Date();
+            }
+           // System.out.println("výýýýýstup"+dateString);
+           // Date birthday = new Date(dateString);
+                    //java.sql.Date.valueOf(c2.getString(5));
+            records2.add(new Person(id, name, surname, email, nameday, birthday, Person.BIRTHDAY ,dayOfYearBirthday));
         }
         ArrayList<Person> merged = new ArrayList<>();
         merged.addAll(records1);
@@ -101,12 +138,35 @@ public class MySQLiteDatabaseHelper extends SQLiteOpenHelper {
         ArrayList<Person> records1 = new ArrayList<>();
         if (toDayOfYear > 366) {
             int fromJan = Math.abs(toDayOfYear - 366);
-            db.execSQL("SELECT * FROM contacts WHERE 'nameday' > 0" +
-                    " AND 'nameday < " + fromJan + "' ORDER BY 'nameday'");
+            Cursor c1 = db.rawQuery("SELECT id,name,surname,email,nameday,birthday FROM contacts WHERE nameday > 0 AND nameday < " + fromJan + " ORDER BY nameday;", null);
+
+            c1.moveToFirst();
+            while (c1.moveToNext()) {
+                int id = c1.getInt(0);
+                String name = c1.getString(1);
+                String surname = c1.getString(2);
+                String email = c1.getString(3);
+                int nameday = c1.getInt(4);
+                Date birthday = java.sql.Date.valueOf(c1.getString(5));
+                records1.add(new Person(id, name, surname, email, nameday+"", birthday, Person.NAMEDAY ,nameday));
+            }
         }
+
         ArrayList<Person> records2 = new ArrayList<>();
-        db.execSQL("SELECT * FROM contacts WHERE 'nameday' > " + from +
-                " AND 'nameday < " + toDayOfYear + "' ORDER BY 'nameday'");
+
+        Cursor c2 = db.rawQuery("SELECT id,name,surname,email,nameday,birthday FROM contacts WHERE nameday > " + from +
+                " AND nameday < " + toDayOfYear + " ORDER BY nameday;", null);
+        c2.moveToFirst();
+        while (c2.moveToNext()) {
+            int id = c2.getInt(0);
+            String name = c2.getString(1);
+            String surname = c2.getString(2);
+            String email = c2.getString(3);
+            int nameday = c2.getInt(4);
+            Date birthday = java.sql.Date.valueOf(c2.getString(5));
+            records1.add(new Person(id, name, surname, email, nameday+"", birthday, Person.NAMEDAY ,nameday));
+        }
+
         ArrayList<Person> merged = new ArrayList<>();
         merged.addAll(records1);
         merged.addAll(records2);
@@ -134,66 +194,65 @@ public class MySQLiteDatabaseHelper extends SQLiteOpenHelper {
 
 
     public void addConstraintsOnTables() {
-        db.execSQL("ALTER TABLE `contacts`\n" +
-                "  ADD PRIMARY KEY (`id`),\n" +
-                "  ADD KEY `svatekKontaktu` (`nameday`),\n" +
-                "  ADD KEY `birthday` (`birthday`),\n" +
-                "  ADD KEY `day_of_year_birthday` (`day_of_year_birthday`);");
-        db.execSQL("ALTER TABLE `days`\n" +
-                "  ADD PRIMARY KEY (`id`);");
-        db.execSQL("ALTER TABLE `contacts`\n" +
-                "  ADD CONSTRAINT `svatekKontaktu` FOREIGN KEY (`nameday`) REFERENCES `days` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;");
+        db.execSQL("ALTER TABLE contacts\n" +
+                " ADD CONSTRAINT svatekKontaktu FOREIGN KEY (`nameday`) REFERENCES days (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;");
     }
 
     public void createTableContacts() {
-        db.execSQL("CREATE TABLE `contacts` (\n" +
-                "  `id` integer NOT NULL,\n" +
-                "  `name` text NOT NULL,\n" +
-                "  `surname` text NOT NULL,\n" +
-                "  `nameday` integer NOT NULL,\n" +
-                "  `birthday` date NOT NULL,\n" +
-                "  `day_of_year_birthday` integer NOT NULL,\n" +
-                "  `email` text NOT NULL,\n" +
-                "  `phone` text NOT NULL,\n" +
-                "  `address` integer DEFAULT NULL,\n" +
-                "  `other` text NOT NULL\n" +
-                ")");
-        db.execSQL("INSERT INTO `contacts` (`id`, `name`, `surname`, `nameday`, `birthday`, `day_of_year_birthday`, `email`, `phone`, `address`, `other`) VALUES\n" +
-                "(1, 'Dominik', 'Bydžovský', 217, '1994-11-29', 334, 'dominik01@email.cz', '733600596', 1, ''),\n" +
-                "(4, 'Petr', 'Zelba', 53, '1988-03-20', 80, '', '', NULL, ''),\n" +
-                "(5, 'Antonio', 'Ferrari', 165, '1995-07-11', 193, '', '', NULL, ''),\n" +
-                "(6, 'Martina', 'Zelbová', 199, '1995-07-03', 185, '', '', NULL, ''),\n" +
-                "(7, 'Jana', 'Landová', 145, '1965-07-09', 191, '', '', NULL, ''),\n" +
-                "(8, 'Klára', 'Bydžovská', 225, '1990-07-01', 183, '', '', NULL, ''),\n" +
-                "(9, 'Jiří', 'Zelba', 115, '1962-01-27', 27, '', '', NULL, ''),\n" +
-                "(10, 'Vít', 'Klapil', 167, '1995-03-19', 79, '', '', NULL, ''),\n" +
-                "(12, 'Kateřina', 'Václavíková', 330, '1997-01-06', 6, '', '', NULL, ''),\n" +
-                "(13, 'Jitka', 'Košťálová', 340, '1968-08-26', 239, '', '', NULL, ''),\n" +
-                "(14, 'David', 'Bydžovský', 365, '1992-10-06', 280, '', '', NULL, ''),\n" +
-                "(15, 'Naděžda', 'Zelbová', 261, '1966-11-22', 327, '', '', NULL, ''),\n" +
-                "(16, 'Jiří', 'Němec', 115, '1990-07-11', 193, '', '', NULL, ''),\n" +
-                "(17, 'Josef', 'Bydžovský', 79, '1962-09-24', 268, '', '', NULL, ''),\n" +
-                "(18, 'Arnika', 'Tranová Bydžovská', 90, '1970-11-22', 327, '', '', NULL, ''),\n" +
-                "(19, 'Jana', 'Kopová', 145, '1943-02-19', 50, '', '', NULL, ''),\n" +
-                "(20, 'Jaroslav', 'Kop', 118, '1940-12-03', 338, '', '', NULL, ''),\n" +
-                "(21, 'Jaroslava', 'Bydžovská', 183, '1944-03-18', 78, '', '', NULL, ''),\n" +
-                "(22, 'Marie', 'Palečková', 256, '1941-09-21', 265, '', '', NULL, ''),\n" +
-                "(23, 'Ladislav', 'Paleček', 178, '1938-01-10', 10, '', '', NULL, ''),\n" +
-                "(24, 'Jiří', 'Bydžovský', 115, '1966-04-15', 106, '', '', NULL, '');");
+        db.execSQL("CREATE TABLE IF NOT EXISTS contacts (\n" +
+                "  `id` integer,\n" +
+                "  `name` text,\n" +
+                "  `surname` text,\n" +
+                "  `nameday` integer,\n" +
+                "  `birthday` date,\n" +
+                "  `day_of_year_birthday` integer,\n" +
+                "  `email` text,\n" +
+                "  `phone` text,\n" +
+                "  `address` integer,\n" +
+                "  `other` text,\n" +
+                "  PRIMARY KEY( 'id' )," +
+                " FOREIGN KEY(namedayOfContact) REFERENCES days(id)" +
+                ");");
+
+        db.execSQL("DELETE FROM contacts");
+        db.execSQL("INSERT INTO contacts (`id`, `name`, `surname`, `nameday`, `birthday`, `day_of_year_birthday`, `email`, `phone`, `address`, `other`) VALUES\n" +
+                "(1, 'Dominik', 'Skocdopole', 217, '1994-11-29', 334, 'dominik01@email.cz', '733600596', 1, ''),\n" +
+                "(4, 'Petr', 'Vyližmiho', 53, '1988-03-20', 80, '', '', NULL, ''),\n" +
+                "(5, 'Antonio', 'Jednotoje', 165, '1995-07-11', 193, '', '', NULL, ''),\n" +
+                "(6, 'Martina', 'Láskomilka', 199, '1995-07-03', 185, '', '', NULL, ''),\n" +
+                "(7, 'Jana', 'Křemílková', 145, '1965-07-09', 191, '', '', NULL, ''),\n" +
+                "(8, 'Klára', 'Nečekaná', 225, '1990-07-01', 183, '', '', NULL, ''),\n" +
+                "(9, 'Jiří', 'Mouchulapil', 115, '1962-01-27', 27, '', '', NULL, ''),\n" +
+                "(10, 'Vít', 'Znechutil', 167, '1995-03-19', 79, '', '', NULL, ''),\n" +
+                "(12, 'Kateřina', 'Dostavníková', 330, '1997-01-06', 6, '', '', NULL, ''),\n" +
+                "(13, 'Jitka', 'Usmrkaná', 340, '1968-08-26', 239, '', '', NULL, ''),\n" +
+                "(14, 'David', 'Líný', 365, '1992-10-06', 280, '', '', NULL, ''),\n" +
+                "(15, 'Naděžda', 'Kozlová', 261, '1966-11-22', 327, '', '', NULL, ''),\n" +
+                "(16, 'Jiří', 'Palec', 115, '1990-07-11', 193, '', '', NULL, ''),\n" +
+                "(17, 'Josef', 'Malíček', 79, '1962-09-24', 268, '', '', NULL, ''),\n" +
+                "(18, 'Arnika', 'Prsteníček', 90, '1970-11-22', 327, '', '', NULL, ''),\n" +
+                "(19, 'Jana', 'Skočiladotrávy', 145, '1943-02-19', 50, '', '', NULL, ''),\n" +
+                "(20, 'Jaroslav', 'Kopnuldoněj', 118, '1940-12-03', 338, '', '', NULL, ''),\n" +
+                "(21, 'Jaroslava', 'Lízátková', 183, '1944-03-18', 78, '', '', NULL, ''),\n" +
+                "(22, 'Marie', 'Zeslámydosena', 256, '1941-09-21', 265, '', '', NULL, ''),\n" +
+                "(23, 'Ladislav', 'Uzdičůral', 178, '1938-01-10', 10, '', '', NULL, ''),\n" +
+                "(24, 'Jiří', 'Samostatný', 115, '1966-04-15', 106, '', '', NULL, '');");
     }
 
     public void createTableDays() {
         db.execSQL(
-                "CREATE TABLE `days` (\n" +
-                        "  `id` integer NOT NULL,\n" +
-                        "  `day` integer NOT NULL DEFAULT '0',\n" +
-                        "  `month` varchar DEFAULT NULL,\n" +
-                        "  `n_month` integer DEFAULT NULL,\n" +
-                        "  `svatek1` varchar DEFAULT NULL,\n" +
-                        "  `svatek2` varchar DEFAULT NULL,\n" +
-                        "  `svatek3` varchar DEFAULT NULL\n");
+                "CREATE TABLE IF NOT EXISTS days (\n" +
+                        "  `id` integer,\n" +
+                        "  `day` integer,\n" +
+                        "  `month` varchar,\n" +
+                        "  `n_month` integer,\n" +
+                        "  `svatek1` varchar,\n" +
+                        "  `svatek2` varchar,\n" +
+                        "  `svatek3` varchar," +
+                        " PRIMARY KEY( 'id' ));\n");
+        db.execSQL("DELETE FROM days");
         db.execSQL(
-                "INSERT INTO `days` (`id`, `day`, `month`, `n_month`, `svatek1`, `svatek2`, `svatek3`) VALUES\n" +
+                "INSERT INTO days (`id`, `day`, `month`, `n_month`, `svatek1`, `svatek2`, `svatek3`) VALUES\n " +
                         "(1, 1, 'leden', 1, 'Nový rok', '', ''),\n" +
                         "(2, 2, 'leden', 1, 'Karina', '', ''),\n" +
                         "(3, 3, 'leden', 1, 'Radmila', '', ''),\n" +
@@ -560,9 +619,9 @@ public class MySQLiteDatabaseHelper extends SQLiteOpenHelper {
                         "(364, 29, 'prosinec', 12, 'Judita', '', ''),\n" +
                         "(365, 30, 'prosinec', 12, 'David', '', ''),\n" +
                         "(366, 31, 'prosinec', 12, 'Silvestr', '', '');\n");
-        db.execSQL(
-                "ALTER TABLE `days`\n" +
-                        "  ADD PRIMARY KEY (`id`);\n");
+//        db.execSQL(
+//                "ALTER TABLE `days`\n" +
+//                        "  ADD PRIMARY KEY (`id`);\n");
 //        db.execSQL(
 //                "ALTER TABLE `days`\n" +
 //                "  MODIFY `id` int(3) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=367;\n" +
@@ -589,9 +648,22 @@ public class MySQLiteDatabaseHelper extends SQLiteOpenHelper {
     }
 
     public Person getPerson(int index) {
-        db.execSQL("SELECT * FROM contacts WHERE id = '" + index + " LIMIT 0,1'");
-        Person person = new Person(0, "Pavel", "Novotný", "můj email", "04.08.", new Date());
-        return person;
+           Cursor c = db.rawQuery("SELECT id,name,surname,email,nameday,birthday,day_of_year_birthday FROM contacts WHERE id = " + index + "  LIMIT 0,1;", null);
+
+        if (c.getCount() == 1){
+                c.moveToFirst();
+                int id = c.getInt(0);
+                String name = c.getString(1);
+                String surname = c.getString(2);
+                String email = c.getString(3);
+                String nameday = c.getString(4);
+                Date birthday = java.sql.Date.valueOf(c.getString(5));
+                int dayOfYearBirthday = c.getInt(6);
+                return new Person(id, name, surname, email, nameday, birthday, Person.BIRTHDAY ,dayOfYearBirthday);
+        }
+        return null;
+//        Person person = new Person(0, "Pavel", "Novotný", "můj email", "04.08.", new Date());
+//        return person;
     }
 
 }

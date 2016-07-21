@@ -56,10 +56,10 @@ public class MainActivity extends AppCompatActivity {
         Date date = new Date();
         String name = "_____";
         celebrates.setText("Today's " + date.toString() + " and celebrates " + name);
-        setContentOfListView();
+        setContentOfListView(null);
     }
 
-    public void setContentOfListView() {
+    public void setContentOfListView(View view) {
         CheckBox showAllCheckBox = (CheckBox) findViewById(R.id.show_all_checkbox);
         int showDays;
         if (showAllCheckBox.isChecked()){
@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
         } else {
             showDays = MySQLiteDatabaseHelper.DEFAULT_SHOW_DAYS;
         }
-        ArrayList<Person> listOfPeople = s.getListOfPeople(showDays);
+        ArrayList<Person> listOfPeople = s.getOrderedCelebrationList(showDays);
         ArrayAdapter<Person> adapter = new MyArrayAdapter(getApplicationContext(),
                 listOfPeople, this);
         lstView.setAdapter(adapter);
