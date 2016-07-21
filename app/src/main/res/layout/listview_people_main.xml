@@ -6,7 +6,15 @@
     style="@style/AppTheme.Person"
     android:layout_width="match_parent"
     android:layout_height="@android:dimen/notification_large_icon_height">
-
+<TextView
+    android:id="@+id/whatCelebrates"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignParentTop="true"
+    android:layout_alignParentRight="true"
+    android:padding="4dp"
+    android:layout_marginRight="5dp"
+    android:text=""/>
     <ImageView
         android:id="@+id/smile"
         android:layout_width="@android:dimen/notification_large_icon_width"

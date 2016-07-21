@@ -1,17 +1,15 @@
 package bydzovsky.dominik.birthdayapp.utility;
 
 import android.content.Context;
-import android.database.sqlite.SQLiteDatabase;
 
+import java.text.Format;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
-import java.util.List;
 
 import bydzovsky.dominik.birthdayapp.model.MySQLiteDatabaseHelper;
 import bydzovsky.dominik.birthdayapp.model.Person;
-import bydzovsky.dominik.birthdayapp.model.SQLiteDataManager;
 
 public class Service {
     MySQLiteDatabaseHelper myDatabaseHelper;
@@ -36,5 +34,9 @@ public class Service {
         return myDatabaseHelper.getPerson(index);
     }
 
+    public static String formatDate(Date date){
+        Format formatter = new SimpleDateFormat("dd. MM. yyyy");
+        return formatter.format(date);
+    }
 
 }

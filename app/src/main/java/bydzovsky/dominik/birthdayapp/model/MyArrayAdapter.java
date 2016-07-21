@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import bydzovsky.dominik.birthdayapp.MainActivity;
 import bydzovsky.dominik.birthdayapp.PersonDetailActivity;
 import bydzovsky.dominik.birthdayapp.R;
+import bydzovsky.dominik.birthdayapp.utility.Service;
 
 public class MyArrayAdapter extends ArrayAdapter<Person> {
     private final Context context;
@@ -49,8 +50,7 @@ public class MyArrayAdapter extends ArrayAdapter<Person> {
             }
         });
 
-        setBackgroundColorOfLayoutAccordingToCelebration(relativeLayout, person);
-
+        TextView whatCelebratesTextView = (TextView) rowView.findViewById(R.id.whatCelebrates);
         ImageView imageView = (ImageView) rowView.findViewById(R.id.smile);
         TextView nameTextView = (TextView) rowView.findViewById(R.id.name);
         TextView surnameTextView = (TextView) rowView.findViewById(R.id.surname);
@@ -60,20 +60,20 @@ public class MyArrayAdapter extends ArrayAdapter<Person> {
         //imageView.setImageDrawable();
         nameTextView.setText(person.getName());
         surnameTextView.setText(person.getSurname());
-        dateTextView.setText(person.getBirthday().toString());
-        yearOldTextView.setText(person.getAge()+"");
+        dateTextView.setText(Service.formatDate(person.getBirthday()));
+        yearOldTextView.setText(person.getAge() + "");
+// -------------------setBackgroundColorOfLayoutAccordingToCelebration(relativeLayout, person);
 
-        return rowView;
-    }
+        if (person.getCelebratesWhat() == Person.BIRTHDAY) {
+            relativeLayout.setBackgroundColor(Color.parseColor("#FAC9A0"));
+            whatCelebratesTextView.setText("Narozeniny");
 
-    public void setBackgroundColorOfLayoutAccordingToCelebration(RelativeLayout layout, Person person){
-        if (person.getCelebratesWhat() == Person.BIRTHDAY){
-            layout.setBackgroundColor(Color.parseColor("#FAC9A0"));
-
-        } else if (person.getCelebratesWhat() == Person.NAMEDAY){
-            layout.setBackgroundColor(Color.parseColor("#C9645E"));
-
+        } else if (person.getCelebratesWhat() == Person.NAMEDAY) {
+            relativeLayout.setBackgroundColor(Color.parseColor("#C9645E"));
+            whatCelebratesTextView.setText("Svátek");
         }
+        //----------------------------
+        return rowView;
     }
 
     @Override

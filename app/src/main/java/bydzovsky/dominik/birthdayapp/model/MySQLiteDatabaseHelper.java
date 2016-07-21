@@ -7,9 +7,11 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import java.sql.ResultSet;
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 
 public class MySQLiteDatabaseHelper extends SQLiteOpenHelper {
@@ -48,7 +50,7 @@ public class MySQLiteDatabaseHelper extends SQLiteOpenHelper {
         return getBirthdaysList(from, showDays);
     }
 
-    public ArrayList<Person> getTestData(){
+    public ArrayList<Person> getTestData() {
         ArrayList<Person> listOfPeople = new ArrayList<>();
 //        listOfPeople.add(new Person(1, "David", "Nodopíči", "email", "01.01.", new Date()));
 //        listOfPeople.add(new Person(2, "Petr", "Kundahunda", "email", "01.01.", new Date()));
@@ -82,10 +84,10 @@ public class MySQLiteDatabaseHelper extends SQLiteOpenHelper {
                 String surname = c1.getString(2);
                 String email = c1.getString(3);
                 String nameday = c1.getString(4);
-                Date birthday = java.sql.Date.valueOf(c1.getString(5));
+                Date birthday = parseDateFromDatabase(c1.getString(5));
                 int dayOfYearBirthday = c1.getInt(6);
                 if (!is_leap_year() && todaysDayOfYear > 59) dayOfYearBirthday--;
-                records1.add(new Person(id, name, surname, email, nameday, birthday, Person.BIRTHDAY ,dayOfYearBirthday));
+                records1.add(new Person(id, name, surname, email, nameday, birthday, Person.BIRTHDAY, dayOfYearBirthday));
             }
         }
 
@@ -104,17 +106,18 @@ public class MySQLiteDatabaseHelper extends SQLiteOpenHelper {
             String dateString = c2.getString(5);
             int dayOfYearBirthday = c2.getInt(6);
             if (!is_leap_year() && todaysDayOfYear > 59) dayOfYearBirthday--;
-            Date birthday;
-            try {
-                birthday = DateFormat.getDateInstance().parse(dateString);
-            } catch (Exception e){
-                e.printStackTrace();
-                birthday = new Date();
-            }
-           // System.out.println("výýýýýstup"+dateString);
-           // Date birthday = new Date(dateString);
-                    //java.sql.Date.valueOf(c2.getString(5));
-            records2.add(new Person(id, name, surname, email, nameday, birthday, Person.BIRTHDAY ,dayOfYearBirthday));
+            Date birthday = parseDateFromDatabase(dateString);
+//            Date birthday;
+//            try {
+//                birthday = DateFormat.getDateInstance().parse(dateString);
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//                birthday = new Date();
+//            }
+            // System.out.println("výýýýýstup"+dateString);
+            // Date birthday = new Date(dateString);
+            //java.sql.Date.valueOf(c2.getString(5));
+            records2.add(new Person(id, name, surname, email, nameday, birthday, Person.BIRTHDAY, dayOfYearBirthday));
         }
         ArrayList<Person> merged = new ArrayList<>();
         merged.addAll(records1);
@@ -147,8 +150,8 @@ public class MySQLiteDatabaseHelper extends SQLiteOpenHelper {
                 String surname = c1.getString(2);
                 String email = c1.getString(3);
                 int nameday = c1.getInt(4);
-                Date birthday = java.sql.Date.valueOf(c1.getString(5));
-                records1.add(new Person(id, name, surname, email, nameday+"", birthday, Person.NAMEDAY ,nameday));
+                Date birthday = parseDateFromDatabase(c1.getString(5));//java.sql.Date.valueOf(c1.getString(5));
+                records1.add(new Person(id, name, surname, email, nameday + "", birthday, Person.NAMEDAY, nameday));
             }
         }
 
@@ -163,8 +166,8 @@ public class MySQLiteDatabaseHelper extends SQLiteOpenHelper {
             String surname = c2.getString(2);
             String email = c2.getString(3);
             int nameday = c2.getInt(4);
-            Date birthday = java.sql.Date.valueOf(c2.getString(5));
-            records1.add(new Person(id, name, surname, email, nameday+"", birthday, Person.NAMEDAY ,nameday));
+            Date birthday = parseDateFromDatabase(c2.getString(5));
+            records1.add(new Person(id, name, surname, email, nameday + "", birthday, Person.NAMEDAY, nameday));
         }
 
         ArrayList<Person> merged = new ArrayList<>();
@@ -192,6 +195,22 @@ public class MySQLiteDatabaseHelper extends SQLiteOpenHelper {
 //        return $recs;
     }
 
+    public Date parseDateFromDatabase(String sqlDate) {
+        Date date;
+        int year = Integer.parseInt(sqlDate.substring(0,3));
+        int month = Integer.parseInt(sqlDate.substring(5,6));
+        int day = Integer.parseInt(sqlDate.substring(8,9));
+        date = new Date();
+        date.setYear(year);
+        date.setMonth(month);
+//        try {
+//            date = SimpleDateFormat.getInstance().parse(sqlDate);
+//        } catch (Exception e){
+//            e.printStackTrace();
+//            date = null;
+//        }
+        return date;
+    }
 
     public void addConstraintsOnTables() {
         db.execSQL("ALTER TABLE contacts\n" +
@@ -217,26 +236,26 @@ public class MySQLiteDatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DELETE FROM contacts");
         db.execSQL("INSERT INTO contacts (`id`, `name`, `surname`, `nameday`, `birthday`, `day_of_year_birthday`, `email`, `phone`, `address`, `other`) VALUES\n" +
                 "(1, 'Dominik', 'Skocdopole', 217, '1994-11-29', 334, 'dominik01@email.cz', '733600596', 1, ''),\n" +
-                "(4, 'Petr', 'Vyližmiho', 53, '1988-03-20', 80, '', '', NULL, ''),\n" +
-                "(5, 'Antonio', 'Jednotoje', 165, '1995-07-11', 193, '', '', NULL, ''),\n" +
-                "(6, 'Martina', 'Láskomilka', 199, '1995-07-03', 185, '', '', NULL, ''),\n" +
-                "(7, 'Jana', 'Křemílková', 145, '1965-07-09', 191, '', '', NULL, ''),\n" +
-                "(8, 'Klára', 'Nečekaná', 225, '1990-07-01', 183, '', '', NULL, ''),\n" +
-                "(9, 'Jiří', 'Mouchulapil', 115, '1962-01-27', 27, '', '', NULL, ''),\n" +
-                "(10, 'Vít', 'Znechutil', 167, '1995-03-19', 79, '', '', NULL, ''),\n" +
-                "(12, 'Kateřina', 'Dostavníková', 330, '1997-01-06', 6, '', '', NULL, ''),\n" +
-                "(13, 'Jitka', 'Usmrkaná', 340, '1968-08-26', 239, '', '', NULL, ''),\n" +
-                "(14, 'David', 'Líný', 365, '1992-10-06', 280, '', '', NULL, ''),\n" +
-                "(15, 'Naděžda', 'Kozlová', 261, '1966-11-22', 327, '', '', NULL, ''),\n" +
-                "(16, 'Jiří', 'Palec', 115, '1990-07-11', 193, '', '', NULL, ''),\n" +
-                "(17, 'Josef', 'Malíček', 79, '1962-09-24', 268, '', '', NULL, ''),\n" +
-                "(18, 'Arnika', 'Prsteníček', 90, '1970-11-22', 327, '', '', NULL, ''),\n" +
-                "(19, 'Jana', 'Skočiladotrávy', 145, '1943-02-19', 50, '', '', NULL, ''),\n" +
-                "(20, 'Jaroslav', 'Kopnuldoněj', 118, '1940-12-03', 338, '', '', NULL, ''),\n" +
-                "(21, 'Jaroslava', 'Lízátková', 183, '1944-03-18', 78, '', '', NULL, ''),\n" +
-                "(22, 'Marie', 'Zeslámydosena', 256, '1941-09-21', 265, '', '', NULL, ''),\n" +
-                "(23, 'Ladislav', 'Uzdičůral', 178, '1938-01-10', 10, '', '', NULL, ''),\n" +
-                "(24, 'Jiří', 'Samostatný', 115, '1966-04-15', 106, '', '', NULL, '');");
+                "(2, 'Petr', 'Vyližmiho', 53, '1988-03-20', 80, '', '', NULL, ''),\n" +
+                "(3, 'Antonio', 'Jednotoje', 165, '1995-07-11', 193, '', '', NULL, ''),\n" +
+                "(4, 'Martina', 'Láskomilka', 199, '1995-07-03', 185, '', '', NULL, ''),\n" +
+                "(5, 'Jana', 'Křemílková', 145, '1965-07-09', 191, '', '', NULL, ''),\n" +
+                "(6, 'Klára', 'Nečekaná', 225, '1990-07-01', 183, '', '', NULL, ''),\n" +
+                "(7, 'Jiří', 'Mouchulapil', 115, '1962-01-27', 27, '', '', NULL, ''),\n" +
+                "(8, 'Vít', 'Znechutil', 167, '1995-03-19', 79, '', '', NULL, ''),\n" +
+                "(9, 'Kateřina', 'Dostavníková', 330, '1997-01-06', 6, '', '', NULL, ''),\n" +
+                "(10, 'Jitka', 'Usmrkaná', 340, '1968-08-26', 239, '', '', NULL, ''),\n" +
+                "(11, 'David', 'Líný', 365, '1992-10-06', 280, '', '', NULL, ''),\n" +
+                "(12, 'Naděžda', 'Kozlová', 261, '1966-11-22', 327, '', '', NULL, ''),\n" +
+                "(13, 'Jiří', 'Palec', 115, '1990-07-11', 193, '', '', NULL, ''),\n" +
+                "(14, 'Josef', 'Malíček', 79, '1962-09-24', 268, '', '', NULL, ''),\n" +
+                "(15, 'Arnika', 'Prsteníček', 90, '1970-11-22', 327, '', '', NULL, ''),\n" +
+                "(16, 'Jana', 'Skočiladotrávy', 145, '1943-02-19', 50, '', '', NULL, ''),\n" +
+                "(17, 'Jaroslav', 'Kopnuldoněj', 118, '1940-12-03', 338, '', '', NULL, ''),\n" +
+                "(18, 'Jaroslava', 'Lízátková', 183, '1944-03-18', 78, '', '', NULL, ''),\n" +
+                "(19, 'Marie', 'Zeslámydosena', 256, '1941-09-21', 265, '', '', NULL, ''),\n" +
+                "(20, 'Ladislav', 'Uzdičůral', 178, '1938-01-10', 10, '', '', NULL, ''),\n" +
+                "(21, 'Jiří', 'Samostatný', 115, '1966-04-15', 106, '', '', NULL, '');");
     }
 
     public void createTableDays() {
@@ -648,18 +667,18 @@ public class MySQLiteDatabaseHelper extends SQLiteOpenHelper {
     }
 
     public Person getPerson(int index) {
-           Cursor c = db.rawQuery("SELECT id,name,surname,email,nameday,birthday,day_of_year_birthday FROM contacts WHERE id = " + index + "  LIMIT 0,1;", null);
+        Cursor c = db.rawQuery("SELECT id,name,surname,email,nameday,birthday,day_of_year_birthday FROM contacts WHERE id = " + index + "  LIMIT 0,1;", null);
 
-        if (c.getCount() == 1){
-                c.moveToFirst();
-                int id = c.getInt(0);
-                String name = c.getString(1);
-                String surname = c.getString(2);
-                String email = c.getString(3);
-                String nameday = c.getString(4);
-                Date birthday = java.sql.Date.valueOf(c.getString(5));
-                int dayOfYearBirthday = c.getInt(6);
-                return new Person(id, name, surname, email, nameday, birthday, Person.BIRTHDAY ,dayOfYearBirthday);
+        if (c.getCount() == 1) {
+            c.moveToFirst();
+            int id = c.getInt(0);
+            String name = c.getString(1);
+            String surname = c.getString(2);
+            String email = c.getString(3);
+            String nameday = c.getString(4);
+            Date birthday = java.sql.Date.valueOf(c.getString(5));
+            int dayOfYearBirthday = c.getInt(6);
+            return new Person(id, name, surname, email, nameday, birthday, Person.BIRTHDAY, dayOfYearBirthday);
         }
         return null;
 //        Person person = new Person(0, "Pavel", "Novotný", "můj email", "04.08.", new Date());
