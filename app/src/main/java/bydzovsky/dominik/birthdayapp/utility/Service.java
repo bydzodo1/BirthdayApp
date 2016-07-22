@@ -40,6 +40,10 @@ public class Service {
         return result;
     }
 
+    public void deletePerson(int id){
+        myDatabaseHelper.getDb().execSQL("DELETE FROM contacts WHERE id = "+id);
+    }
+
     public ArrayList<Person> getOrderedCelebrationList(int showDays){
 
         ArrayList<Person> birthdayList = myDatabaseHelper.getBirthdaysList(showDays);
@@ -61,7 +65,49 @@ public class Service {
         Collections.sort(namedayList);
         return namedayList;
     }
+    public String getStringMonthAccordingN_Month(int n_month){
+        String result = "";
 
+        SQLiteDatabase db = myDatabaseHelper.getDb();
+        Cursor c1 = db.rawQuery("SELECT month FROM days WHERE n_month = " + n_month + " LIMIT 0,1", null);
+
+        c1.moveToFirst();
+        if (c1.getCount() == 1) {
+            String sv1 = c1.getString(0);
+            result = sv1;
+        }
+        return result;
+    }
+    public boolean execSql(String sql){
+        myDatabaseHelper.getDb().execSQL(sql,null);
+        return true;
+    }
+    public int getDayOfYear(int day, int month){
+        int result = 0;
+
+        SQLiteDatabase db = myDatabaseHelper.getDb();
+        Cursor c1 = db.rawQuery("SELECT id FROM days WHERE day = " + day + " and n_month = " + month + " LIMIT 0,1", null);
+
+        c1.moveToFirst();
+        if (c1.getCount() == 1) {
+            int id = c1.getInt(0);
+            result = id;
+        }
+        return result;
+    }
+    public int getMonthAccordingToDayOfYear(String dayOfYear){
+        String result = "";
+
+        SQLiteDatabase db = myDatabaseHelper.getDb();
+        Cursor c1 = db.rawQuery("SELECT n_month FROM days WHERE id = " + dayOfYear + " LIMIT 0,1", null);
+
+        c1.moveToFirst();
+        if (c1.getCount() == 1) {
+            String sv1 = c1.getString(0);
+            result = sv1;
+        }
+        return Integer.parseInt(result);
+    }
     public String getStringDateAccortingToDayOfYear(String dayOfYear){
         String result = "";
 
@@ -83,6 +129,10 @@ public class Service {
     public static String formatDate(Date date){
         Format formatter = new SimpleDateFormat("dd. MM. yyyy");
         return formatter.format(date);
+    }
+
+    public ArrayList<Person> getAllContacts(){
+        return myDatabaseHelper.getAllContacts();
     }
 
 }

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/click_to_detail"
+    style="@style/AppTheme.Person"
+    android:layout_width="match_parent"
+    android:layout_height="@android:dimen/notification_large_icon_height">
+
+    <TextView
+        android:id="@+id/whatCelebrates"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginRight="5dp"
+        android:padding="4dp"
+        android:text=""
+        android:textColor="@color/textColorOnNamedayorBirthday" />
+
+    <ImageView
+        android:id="@+id/smile"
+        android:layout_width="@android:dimen/notification_large_icon_width"
+        android:layout_height="@android:dimen/notification_large_icon_height"
+        android:scaleType="centerCrop"
+        android:src="@drawable/face1"
+        />
+
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/smile"
+        android:paddingLeft="2dp"
+        android:text="Jméno"
+        android:textColor="@color/textColorOnNamedayorBirthday"
+        android:textSize="18dp" />
+
+    <TextView
+        android:id="@+id/surname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/name"
+        android:paddingLeft="2dp"
+        android:text="Příjmení"
+        android:textColor="@color/textColorOnNamedayorBirthday"
+        android:textSize="18dp" />
+
+    <TextView
+        android:id="@+id/celebrates"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/name"
+        android:layout_toRightOf="@id/smile"
+        android:paddingLeft="2dp"
+        android:text=""
+        android:textColor="@color/textColorOnNamedayorBirthday"
+        android:textSize="14dp" />
+
+
+    <TextView
+        android:id="@+id/yearOld"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/celebrates"
+        android:layout_toRightOf="@id/smile"
+        android:paddingLeft="2dp"
+        android:text="yearOld"
+        android:textColor="@color/textColorOnNamedayorBirthday"
+        android:textSize="14dp" />
+
+    <TextView
+        android:id="@+id/detail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/celebrates"
+        android:layout_toRightOf="@id/yearOld"
+        android:paddingLeft="2dp"
+        android:text=" years old"
+        android:textColor="@color/textColorOnNamedayorBirthday"
+        android:textSize="14dp" />
+
+    <Button
+        android:id="@+id/deleteButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="4dp"
+        android:text="Delete"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"/>
+</RelativeLayout>

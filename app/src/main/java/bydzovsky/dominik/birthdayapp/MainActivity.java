@@ -126,11 +126,14 @@ public class MainActivity extends AppCompatActivity {
 
             Intent intent = new Intent(this, AboutActivity.class);
             startActivity(intent);
-
         }
 
         if (id==android.R.id.home) {
             finish();
+        }
+        if (id == R.id.action_allContacts) {
+            Intent intent = new Intent(this, AllContactsActivity.class);
+            startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
     }

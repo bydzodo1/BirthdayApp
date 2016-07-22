@@ -44,6 +44,26 @@ public class MySQLiteDatabaseHelper extends SQLiteOpenHelper {
 
     }
 
+    public ArrayList<Person> getAllContacts(){
+        ArrayList<Person> lst = new ArrayList<>();
+        Cursor c1 = db.rawQuery("SELECT id, name, surname, email, nameday, birthday, day_of_year_birthday,phone,address,other FROM contacts", null);
+
+        c1.moveToFirst();
+        while (c1.moveToNext()) {
+            int id = c1.getInt(0);
+            String name = c1.getString(1);
+            String surname = c1.getString(2);
+            String email = c1.getString(3);
+            String nameday = c1.getString(4);
+            Date birthday = java.sql.Date.valueOf(c1.getString(5));
+            int dayOfYearBirthday = c1.getInt(6);
+            String phone = c1.getString(7);
+            String address = c1.getString(8);
+            String other = c1.getString(9);
+            lst.add(new Person(id, name, surname, email, nameday, birthday, Person.BIRTHDAY, dayOfYearBirthday, phone, address, other));
+        }
+        return lst;
+    }
     public ArrayList<Person> getBirthdaysList() {
         return getBirthdaysList(DEFAULT_SHOW_DAYS);
     }
@@ -245,25 +265,25 @@ public class MySQLiteDatabaseHelper extends SQLiteOpenHelper {
 
         db.execSQL("DELETE FROM contacts");
         db.execSQL("INSERT INTO contacts (`id`, `name`, `surname`, `nameday`, `birthday`, `day_of_year_birthday`, `email`, `phone`, `address`, `other`) VALUES\n" +
-                "(1, 'Dominik', 'Skocdopole', 217, '1994-11-29', 334, 'dominik01@email.cz', '733600596', NULL, ''),\n" +
-                "(2, 'Petr', 'Vyližmiho', 53, '1988-03-20', 80, 'asdfsdf@asd', '786789782789', NULL, ''),\n" +
-                "(3, 'Antonio', 'Jednotoje', 165, '1995-07-11', 193, 'afsg@ncvb', '789678967896', NULL, ''),\n" +
-                "(4, 'Martina', 'Láskomilka', 199, '1995-07-03', 185, 'sdadf@asdf', '78967867896', NULL, ''),\n" +
-                "(5, 'Jana', 'Křemílková', 145, '1965-07-09', 191, 'kremilkova@seznam.cz', '78967892', NULL, ''),\n" +
+                "(1, 'Petr', 'Skocdopole', 217, '1994-11-29', 334, 'dominik01@email.cz', '733600596', NULL, ''),\n" +
+                "(2, 'Anička', 'Vylízalpes', 53, '1988-03-20', 80, 'asdfsdf@asd', '786789782789', NULL, ''),\n" +
+                "(3, 'Alžběta', 'Hnusněvypadám', 165, '1995-07-11', 193, 'afsg@ncvb', '789678967896', NULL, ''),\n" +
+                "(4, 'Martin', 'Láskomílek', 199, '1995-07-03', 185, 'sdadf@asdf', '78967867896', NULL, ''),\n" +
+                "(5, 'Jan', 'Křemílek', 145, '1965-07-09', 191, 'kremilkova@seznam.cz', '78967892', NULL, ''),\n" +
                 "(6, 'Klára', 'Nečekaná', 225, '1990-07-01', 183, 'necekana@gmail.com', '7896789278', NULL, ''),\n" +
                 "(7, 'Jiří', 'Mouchulapil', 115, '1962-01-27', 27, 'mouchulapil@gmail.com', '789289278', NULL, ''),\n" +
                 "(8, 'Vít', 'Znechutil', 167, '1995-03-19', 79, 'znechutil@gmail.com', '78962789', NULL, ''),\n" +
                 "(9, 'Kateřina', 'Dostavníková', 330, '1997-01-06', 6, 'dostanikova@gmail.com', '785752782', NULL, ''),\n" +
                 "(10, 'Jitka', 'Usmrkaná', 340, '1968-08-26', 239, 'usmrkana@gmail.com', '78785785', NULL, ''),\n" +
                 "(11, 'David', 'Líný', 365, '1992-10-06', 280, 'liny@gmail.com', '77867572', NULL, ''),\n" +
-                "(12, 'Naděžda', 'Kozlová', 261, '1966-11-22', 327, 'kozlova@gmail.com', '7464868796', NULL, ''),\n" +
-                "(13, 'Jiří', 'Palec', 115, '1990-07-11', 193, 'palec@gmail.com', '78678578578', NULL, ''),\n" +
-                "(14, 'Josef', 'Malíček', 79, '1962-09-24', 268, 'malicek@gmail.com', '5785785786', NULL, ''),\n" +
-                "(15, 'Arnika', 'Prsteníček', 90, '1970-11-22', 327, 'prstenicek@gmail.com', '787857278', NULL, ''),\n" +
-                "(16, 'Jana', 'Skočiladotrávy', 145, '1943-02-19', 50, 'skociladotravy@gmail.com', '78578578', NULL, ''),\n" +
-                "(17, 'Jaroslav', 'Kopnuldoněj', 118, '1940-12-03', 338, 'kopnuldonej@gmail.com', '786785754', NULL, ''),\n" +
+                "(12, 'Denisa', 'Hlavakulatá', 261, '1966-11-22', 327, 'hlavakulata@gmail.com', '7464868796', NULL, ''),\n" +
+                "(13, 'Jiřinka', 'Utrhlimihlavu', 115, '1990-07-11', 193, 'palec@gmail.com', '78678578578', NULL, ''),\n" +
+                "(14, 'Pepinka', 'Krásnopleťka', 79, '1962-09-24', 268, 'malicek@gmail.com', '5785785786', NULL, ''),\n" +
+                "(15, 'Vylízanou', 'Hlavuma', 90, '1970-11-22', 327, 'prstenicek@gmail.com', '787857278', NULL, ''),\n" +
+                "(16, 'Honzík', 'Skočildotrávy', 145, '1943-02-19', 50, 'skociladotravy@gmail.com', '78578578', NULL, ''),\n" +
+                "(17, 'Jaroslava', 'Uprdlasi', 118, '1940-12-03', 338, 'kopnuldonej@gmail.com', '786785754', NULL, ''),\n" +
                 "(18, 'Jaroslava', 'Lízátková', 183, '1944-03-18', 78, 'lizatkova@gmail.com', '452452456', NULL, ''),\n" +
-                "(19, 'Marie', 'Zeslámydosena', 256, '1941-09-21', 265, 'maruska@asd.cz', '12365871', NULL, ''),\n" +
+                "(19, 'Pepa', 'Zeslámydosenaskočil', 256, '1941-09-21', 265, 'maruska@asd.cz', '12365871', NULL, ''),\n" +
                 "(20, 'Ladislav', 'Uzdičůral', 178, '1938-01-10', 10, 'uzdichcal@gmail.com', '6456456456', NULL, ''),\n" +
                 "(21, 'Jiří', 'Samostatný', 115, '1966-04-15', 106, 'samostatny@gmail.com', '45645645', NULL, '');");
     }

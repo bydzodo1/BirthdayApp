@@ -15,6 +15,7 @@ import android.widget.TextView;
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -28,6 +29,7 @@ public class MyArrayAdapter extends ArrayAdapter<Person> {
     private final ArrayList<Person> values;
     private final MainActivity mainActivity;
     private final Service service;
+    private int actualMonth = -1;
 
     public MyArrayAdapter(Context context, ArrayList<Person> values, MainActivity mainActivity) {
         super(context, -1, values);
@@ -66,12 +68,16 @@ public class MyArrayAdapter extends ArrayAdapter<Person> {
         TextView yearOldTextView = (TextView) rowView.findViewById(R.id.yearOld);
         TextView labelForYearOld = (TextView) rowView.findViewById(R.id.detail);
         TextView labelCelebrates = (TextView) rowView.findViewById(R.id.celebrates);
+        TextView monthTextView = (TextView) rowView.findViewById(R.id.month);
         //imageView.setImageDrawable();
         nameTextView.setText(person.getName());
-        surnameTextView.setText(person.getSurname());
+
 
 
 // -------------------setBackgroundColorOfLayoutAccordingToCelebration(relativeLayout, person);
+
+
+
 
         if (person.getCelebratesWhat() == Person.BIRTHDAY) {
             relativeLayout.setBackgroundColor(getContext().getResources().getColor(R.color.colorBirthday));
@@ -79,7 +85,20 @@ public class MyArrayAdapter extends ArrayAdapter<Person> {
             dateTextView.setText(Service.formatDate(person.getBirthday()));
             yearOldTextView.setText(person.getAge() + "");
             labelCelebrates.setText("has BIRTHDAY on ");
+            surnameTextView.setText(person.getSurname());
 
+            int personsMonth;
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(person.getBirthday());
+            personsMonth = calendar.get(Calendar.MONTH);
+            personsMonth++;
+
+            if (actualMonth == -1 || actualMonth != personsMonth){
+                actualMonth = new Integer(personsMonth);
+                monthTextView.setText(service.getStringMonthAccordingN_Month(actualMonth));
+            } else {
+                monthTextView.setHeight(0);
+            }
         } else if (person.getCelebratesWhat() == Person.NAMEDAY) {
             relativeLayout.setBackgroundColor(getContext().getResources().getColor(R.color.colorNameday));
             whatCelebratesTextView.setText("Nameday");
@@ -87,8 +106,21 @@ public class MyArrayAdapter extends ArrayAdapter<Person> {
             yearOldTextView.setText("");
             labelForYearOld.setText("");
             labelCelebrates.setText("has nameday on ");
+            surnameTextView.setText("");
+
+            int personsMonth;
+            personsMonth = service.getMonthAccordingToDayOfYear(person.getNameday());
+
+            if (actualMonth == -1 || actualMonth != personsMonth){
+                actualMonth = new Integer(personsMonth);
+                monthTextView.setText(service.getStringMonthAccordingN_Month(actualMonth));
+            } else {
+                monthTextView.setHeight(0);
+            }
         }
         //----------------------------
+
+
         return rowView;
     }
 

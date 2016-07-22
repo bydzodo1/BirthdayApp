@@ -4,7 +4,7 @@
     <color name="colorPrimaryDark">#88BBD6</color>
     <color name="colorAccent">#3399CC</color>
     <color name="colorBackground">#FFFFFF</color>
-    <color name="colorOther">#C9645E</color>
+    <color name="colorOther">#E9E9E9</color>
     <color name="colorNameday">#E9E9E9</color>
     <color name="colorBirthday">#CDCDCD</color>
     <color name="textColorOnNamedayorBirthday">#777</color>
